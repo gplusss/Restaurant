@@ -10,26 +10,20 @@ import UIKit
 import RealmSwift
 
 class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate {
-    //@IBOutlet var restaurantImageView: UIImageView!
-    
-    
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var personsTextField: UITextField!
     @IBOutlet weak var phoneTextField: UITextField!
     @IBOutlet weak var notesTextField: UITextField!
     @IBOutlet weak var startDateTextLabel: UITextField!
     @IBOutlet weak var endDateTextLable: UITextField!    
-    //@IBOutlet weak var datePickerToolBar: UIToolbar!
     
     var currentTextField: UITextField!
     
     var startDate: NSDate?
     var endDate: NSDate?
     var currentDate = NSDate()
+    var table: Table!
     
-//    override func prefersStatusBarHidden() -> Bool {
-//        return true
-//    }
     
     lazy var accessoryToolbar: UIToolbar = {
         let toolbar = UIToolbar(frame: CGRectMake(0, 0, self.view.frame.size.width, 50))
@@ -54,34 +48,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     lazy var textFields: [UITextField] = {
         return [self.nameTextField, self.personsTextField, self.startDateTextLabel, self.endDateTextLable, self.phoneTextField, self.notesTextField]
     }()
-    
-    
-    func startDatePickerValueChanged(sender:UIDatePicker) {
-        startDate = sender.date
-        
-        let dateFormatter = NSDateFormatter()
-        
-        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
-        
-        dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
-        
-        startDateTextLabel.text = dateFormatter.stringFromDate(sender.date)
-
-    }
-    
-    func endDatePickerValueChanged(sender:UIDatePicker) {
-        endDate = sender.date
-        
-        let dateFormatter = NSDateFormatter()
-        
-        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
-        
-        dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
-        
-        
-        endDateTextLable.text = dateFormatter.stringFromDate(sender.date)
-        
-    }
 
     @IBAction func startDateTextLabel(sender: UITextField) {
         let startDatePickerView:UIDatePicker = UIDatePicker()
@@ -104,8 +70,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
 
     }
     
-    var table: Table!
-
     override func viewDidLoad() {
         super.viewDidLoad()
         nameTextField.becomeFirstResponder()
@@ -118,6 +82,36 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         }
         
         currentTextField = textFields.first!
+        
+    }
+    
+    
+    
+    
+    func startDatePickerValueChanged(sender:UIDatePicker) {
+        startDate = sender.date
+        
+        let dateFormatter = NSDateFormatter()
+        
+        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
+        
+        dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
+        
+        startDateTextLabel.text = dateFormatter.stringFromDate(sender.date)
+        
+    }
+    
+    func endDatePickerValueChanged(sender:UIDatePicker) {
+        endDate = sender.date
+        
+        let dateFormatter = NSDateFormatter()
+        
+        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
+        
+        dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
+        
+        
+        endDateTextLable.text = dateFormatter.stringFromDate(sender.date)
         
     }
     
