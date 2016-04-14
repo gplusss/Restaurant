@@ -187,14 +187,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         return true
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-
-        // Dispose of any resources that can be recreated.
-    }
-    
-    
-    
     @IBAction func addReservation(sender: UIButton) {
         
         guard let name = nameTextField.text where name.characters.count > 0 else {
