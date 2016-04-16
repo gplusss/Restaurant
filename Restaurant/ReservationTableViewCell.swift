@@ -16,5 +16,5 @@ class ReservationTableViewCell: UITableViewCell {
     @IBOutlet var endTimeLabel: UILabel!
     @IBOutlet var phoneNumberLabel: UILabel!
     @IBOutlet var personsLable: UILabel!
-    
+        
 }

@@ -17,10 +17,14 @@ class ReservationsListViewController: UITableViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
         
-        reservations = table.reservations.sorted("startTime", ascending: true).toArray(Reservation)
+        reservations = table.reservations.sorted("startTime", ascending: false).toArray(Reservation)
         tableView.reloadData()
     }
     
+    @IBAction func editTextLable(sender: UIButton) {
+    print("EDIT!!!")
+        
+    }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "addReservation" {

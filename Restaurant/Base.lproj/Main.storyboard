@@ -140,6 +140,13 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tXj-zX-4SB">
+                                            <rect key="frame" x="492" y="69" width="48" height="38"/>
+                                            <state key="normal" title="Edit"/>
+                                            <connections>
+                                                <segue destination="eoG-dB-icg" kind="showDetail" id="NfZ-cU-bEl"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="llo-q9-yC6" firstAttribute="leading" secondItem="XLj-eO-yja" secondAttribute="leading" id="08E-te-MqR"/>
@@ -147,9 +154,11 @@
                                         <constraint firstItem="TRR-vX-CXa" firstAttribute="leading" secondItem="fF0-dl-bxH" secondAttribute="leading" id="SIA-Ee-F3Z"/>
                                         <constraint firstItem="TRR-vX-CXa" firstAttribute="top" secondItem="CFr-6A-HwO" secondAttribute="bottom" constant="7" id="TDV-xG-WYi"/>
                                         <constraint firstItem="CFr-6A-HwO" firstAttribute="top" secondItem="Y8v-QR-xcf" secondAttribute="top" id="TtR-tG-Pgo"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="tXj-zX-4SB" secondAttribute="trailing" constant="52" id="ZtX-iF-kLK"/>
                                         <constraint firstItem="llo-q9-yC6" firstAttribute="top" secondItem="fF0-dl-bxH" secondAttribute="bottom" constant="8" symbolic="YES" id="fnO-c5-CaV"/>
                                         <constraint firstItem="fF0-dl-bxH" firstAttribute="leading" secondItem="llo-q9-yC6" secondAttribute="leading" id="j13-el-Ei0"/>
                                         <constraint firstItem="CFr-6A-HwO" firstAttribute="leading" secondItem="Y8v-QR-xcf" secondAttribute="leadingMargin" constant="12" id="k0x-Wm-XBc"/>
+                                        <constraint firstItem="tXj-zX-4SB" firstAttribute="top" secondItem="Y8v-QR-xcf" secondAttribute="topMargin" constant="61" id="q1I-CY-1Jd"/>
                                         <constraint firstItem="fF0-dl-bxH" firstAttribute="top" secondItem="TRR-vX-CXa" secondAttribute="bottom" constant="8" symbolic="YES" id="v57-hW-ByJ"/>
                                         <constraint firstItem="CFr-6A-HwO" firstAttribute="leading" secondItem="TRR-vX-CXa" secondAttribute="leading" id="wZz-EU-op5"/>
                                     </constraints>
@@ -369,4 +378,7 @@
             <point key="canvasLocation" x="663" y="43"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="uH1-bn-fqP"/>
+    </inferredMetricsTieBreakers>
 </document>

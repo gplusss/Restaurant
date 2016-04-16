@@ -9,6 +9,10 @@
 import Foundation
 import RealmSwift
 
+var currentDate = NSDate()
+var reservation = [Reservation]()
+
+
 class Table: Object {
     dynamic var name = ""
     dynamic var limitPersons = 0
@@ -25,9 +29,10 @@ class Table: Object {
     }
     
     func isReserved() -> Bool {
-        return self.reservations.count > 0
+        //if ((reservation.startTime.compare(currentDate) == NSComparisonResult.OrderedAscending)
+        return reservations.first?.startTime.compare(currentDate) == NSComparisonResult.OrderedDescending
     }
-    
+
     func reserve(reservation: Reservation) {
         reservations.append(reservation)
     }
