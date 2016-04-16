@@ -74,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				407559401C9ADEA10067B4C2 /* AppDelegate.swift */,
+				4073A02D1CC147CD002CEFF5 /* Realm+Extensions.swift */,
 				407559421C9ADEA10067B4C2 /* TableListViewController.swift */,
 				40A6C03B1CA7A7A000AB0452 /* Table.swift */,
 				407559521C9AE0960067B4C2 /* TableViewCell.swift */,
@@ -84,7 +85,6 @@
 				407559471C9ADEA10067B4C2 /* Assets.xcassets */,
 				4075594C1C9ADEA10067B4C2 /* Info.plist */,
 				40EE62551CA8F37200650F42 /* Launch Screen.storyboard */,
-				4073A02D1CC147CD002CEFF5 /* Realm+Extensions.swift */,
 			);
 			path = Restaurant;
 			sourceTree = "<group>";
