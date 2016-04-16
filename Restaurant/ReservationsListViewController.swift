@@ -12,12 +12,12 @@ import RealmSwift
 
 class ReservationsListViewController: UITableViewController {
     var table: Table!
-        var cellArray : [Reservation] = []
+    var reservations: [Reservation]!
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
-        //table.reservations.sortInPlace ({ $0.startTime.compare($1.endTime) == NSComparisonResult.OrderedAscending })
-        table.reservations.sorted("startTime", ascending: true)
+        
+        reservations = table.reservations.sorted("startTime", ascending: true).toArray(Reservation)
         tableView.reloadData()
     }
     
@@ -31,16 +31,13 @@ class ReservationsListViewController: UITableViewController {
     }
         
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return table.reservations.count
+        return reservations.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("ReservationTableViewCell", forIndexPath: indexPath) as! ReservationTableViewCell
         
-        let realm = try! Realm()
-        realm.beginWrite()
-        
-        let reservation = table.reservations[indexPath.row]
+        let reservation = reservations[indexPath.row]
         
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = .MediumStyle
@@ -50,8 +47,6 @@ class ReservationsListViewController: UITableViewController {
         cell.startTimeLabel.text = "From: \(dateFormatter.stringFromDate(reservation.startTime))"
         cell.endTimeLabel.text = "To: \(dateFormatter.stringFromDate(reservation.endTime))"
         cell.phoneNumberLabel.text = "Phone +38 \(reservation.phone)"
-        
-        try! realm.commitWrite()
         return cell
     }
     
@@ -63,13 +58,15 @@ class ReservationsListViewController: UITableViewController {
             let realm = try! Realm()
             realm.beginWrite()
             
-            self.table.reservations.removeAtIndex(indexPath.row)
+            let reservation = self.reservations[indexPath.row]
+            realm.delete(reservation)
             
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
             try! realm.commitWrite()
-            
-    }
-        deleteAction.backgroundColor = UIColor.blueColor()
+
+            self.reservations.removeAtIndex(indexPath.row)
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+         }
+        deleteAction.backgroundColor = UIColor.redColor()
         
         return [deleteAction]
         

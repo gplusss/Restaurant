@@ -210,11 +210,31 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
                 return
         }
         
+//        guard let start = startDateTextLabel.text where start.characters.count > 0 else {
+//            startDateTextLabel.becomeFirstResponder()
+//       
+//            let alertController = UIAlertController(title: "Validation", message: "Input date", preferredStyle: .Alert)
+//            let canselAction: UIAlertAction = UIAlertAction(title: "Ok", style: .Cancel) { action -> Void in}
+//            alertController.addAction(canselAction)
+//            presentViewController(alertController, animated: true, completion: nil)
+//            return
+//        }
+//        
+//        guard let end = endDateTextLable.text where end.characters.count > 0 else {
+//            endDateTextLable.becomeFirstResponder()
+//
+//            let alertController = UIAlertController(title: "Validation", message: "Input date", preferredStyle: .Alert)
+//            let canselAction: UIAlertAction = UIAlertAction(title: "Ok", style: .Cancel) { action -> Void in}
+//            alertController.addAction(canselAction)
+//            presentViewController(alertController, animated: true, completion: nil)
+//            return
+//        }
+        
         let realm = try! Realm()
         
         realm.beginWrite()
         
-        let reservation = Reservation(value: ["nameTextField": name, "person": person, "phone": phoneTextField.text!, "notes": notesTextField.text!])
+        let reservation = Reservation(value: ["name": name, "person": person, /*"startTime": start, "endTime": end,*/ "phone": phoneTextField.text!, "notes": notesTextField.text!])
         reservation.endTime = endDate!
         reservation.startTime = startDate!
         
