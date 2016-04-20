@@ -261,9 +261,8 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
                 endDate = startDate
         }
         
-            
         table.reserve(reservation!)
-            
+        
         try! realm.commitWrite()
         
         navigationController?.popViewControllerAnimated(true)

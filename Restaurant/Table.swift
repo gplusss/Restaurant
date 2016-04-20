@@ -8,6 +8,7 @@
 
 import Foundation
 import RealmSwift
+import SwiftDate
 
 var currentDate = NSDate()
 var reservation = [Reservation]()
@@ -34,10 +35,10 @@ class Table: Object {
     }
 
     func reserve(reservation: Reservation) {
-        //if reservations.indexOf(reservation) == NSNotFound {
+        if reservations.indexOf(reservation) == NSNotFound {
             reservations.append(reservation)
         }
-   // }
+    }
 }
 
 class Reservation: Object {
