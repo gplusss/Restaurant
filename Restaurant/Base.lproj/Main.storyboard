@@ -98,13 +98,13 @@
         <scene sceneID="cfL-ra-UIq">
             <objects>
                 <tableViewController id="fwW-em-VEr" customClass="ReservationsListViewController" customModule="Restaurant" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="150" sectionHeaderHeight="28" sectionFooterHeight="28" id="0E6-K3-zR0">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="150" sectionHeaderHeight="18" sectionFooterHeight="18" id="0E6-K3-zR0">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ReservationTableViewCell" rowHeight="200" id="l3c-TS-qlf" customClass="ReservationTableViewCell" customModule="Restaurant" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="92" width="600" height="200"/>
+                                <rect key="frame" x="0.0" y="114" width="600" height="200"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="l3c-TS-qlf" id="Y8v-QR-xcf">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="199"/>
@@ -140,13 +140,6 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tXj-zX-4SB">
-                                            <rect key="frame" x="492" y="69" width="48" height="38"/>
-                                            <state key="normal" title="Edit"/>
-                                            <connections>
-                                                <segue destination="eoG-dB-icg" kind="showDetail" id="NfZ-cU-bEl"/>
-                                            </connections>
-                                        </button>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="llo-q9-yC6" firstAttribute="leading" secondItem="XLj-eO-yja" secondAttribute="leading" id="08E-te-MqR"/>
@@ -154,11 +147,9 @@
                                         <constraint firstItem="TRR-vX-CXa" firstAttribute="leading" secondItem="fF0-dl-bxH" secondAttribute="leading" id="SIA-Ee-F3Z"/>
                                         <constraint firstItem="TRR-vX-CXa" firstAttribute="top" secondItem="CFr-6A-HwO" secondAttribute="bottom" constant="7" id="TDV-xG-WYi"/>
                                         <constraint firstItem="CFr-6A-HwO" firstAttribute="top" secondItem="Y8v-QR-xcf" secondAttribute="top" id="TtR-tG-Pgo"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="tXj-zX-4SB" secondAttribute="trailing" constant="52" id="ZtX-iF-kLK"/>
                                         <constraint firstItem="llo-q9-yC6" firstAttribute="top" secondItem="fF0-dl-bxH" secondAttribute="bottom" constant="8" symbolic="YES" id="fnO-c5-CaV"/>
                                         <constraint firstItem="fF0-dl-bxH" firstAttribute="leading" secondItem="llo-q9-yC6" secondAttribute="leading" id="j13-el-Ei0"/>
                                         <constraint firstItem="CFr-6A-HwO" firstAttribute="leading" secondItem="Y8v-QR-xcf" secondAttribute="leadingMargin" constant="12" id="k0x-Wm-XBc"/>
-                                        <constraint firstItem="tXj-zX-4SB" firstAttribute="top" secondItem="Y8v-QR-xcf" secondAttribute="topMargin" constant="61" id="q1I-CY-1Jd"/>
                                         <constraint firstItem="fF0-dl-bxH" firstAttribute="top" secondItem="TRR-vX-CXa" secondAttribute="bottom" constant="8" symbolic="YES" id="v57-hW-ByJ"/>
                                         <constraint firstItem="CFr-6A-HwO" firstAttribute="leading" secondItem="TRR-vX-CXa" secondAttribute="leading" id="wZz-EU-op5"/>
                                     </constraints>
@@ -187,6 +178,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <segue destination="eoG-dB-icg" kind="show" identifier="editReservation" id="4pZ-vw-TKH"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nEr-F4-aEI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -293,11 +287,8 @@
                                     <outlet property="delegate" destination="eoG-dB-icg" id="R8u-yx-szJ"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K6Q-xH-ztp">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K6Q-xH-ztp">
                                 <rect key="frame" x="531" y="72" width="49" height="42"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="49" id="1xW-OB-tR8"/>
-                                </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="25"/>
                                 <state key="normal" title="Add"/>
                                 <connections>
@@ -349,6 +340,7 @@
                     </view>
                     <toolbarItems/>
                     <connections>
+                        <outlet property="addButton" destination="K6Q-xH-ztp" id="lEQ-iz-4Rm"/>
                         <outlet property="endDateTextLable" destination="LDK-Kh-GZZ" id="Dr3-PE-PMt"/>
                         <outlet property="nameTextField" destination="Z92-B3-hHc" id="gOi-5w-4Yc"/>
                         <outlet property="notesTextField" destination="PUp-wp-mAE" id="PmJ-hP-SPv"/>
@@ -379,6 +371,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="uH1-bn-fqP"/>
+        <segue reference="4pZ-vw-TKH"/>
     </inferredMetricsTieBreakers>
 </document>

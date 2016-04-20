@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import SwiftDate
 
 class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate {
     @IBOutlet weak var nameTextField: UITextField!
@@ -16,14 +17,16 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     @IBOutlet weak var notesTextField: UITextField!
     @IBOutlet weak var startDateTextLabel: UITextField!
     @IBOutlet weak var endDateTextLable: UITextField!    
+    @IBOutlet weak var addButton: UIButton!
     
     var currentTextField: UITextField!
     
     var startDate: NSDate?
     var endDate: NSDate?
-    var currentDate = NSDate()
-    var table: Table!
     
+    
+    var table: Table!
+    var reservation: Reservation?
     
     lazy var accessoryToolbar: UIToolbar = {
         let toolbar = UIToolbar(frame: CGRectMake(0, 0, self.view.frame.size.width, 50))
@@ -72,9 +75,22 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        if reservation != nil {
+            addButton.setTitle("Save", forState: .Normal)
+            
+            startDate = reservation!.startTime
+            endDate = reservation!.endTime
+            nameTextField.text = reservation!.name
+            personsTextField.text = String(reservation!.person)
+            startDateTextLabel.text = String(reservation!.startTime)
+            endDateTextLable.text = String(reservation!.endTime)
+            notesTextField.text = reservation!.notes
+            phoneTextField.text = reservation!.phone
+        }
+        
         nameTextField.becomeFirstResponder()
         
-
         title = table.title()
         
         for textField in textFields {
@@ -84,10 +100,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         currentTextField = textFields.first!
         
     }
-    
-    
-    
-    
+        
     func startDatePickerValueChanged(sender:UIDatePicker) {
         startDate = sender.date
         
@@ -174,8 +187,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         let index = textFields.indexOf(textField)
         
-        // TODO: If last textField -> trigger addReservation:
-        
         if index < (textFields.count - 1) {  
             let nextTextField = textFields[index!+1]
             nextTextField.becomeFirstResponder()
@@ -210,15 +221,24 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
                 return
         }
         
+        
         let realm = try! Realm()
         
-        realm.beginWrite()
+            realm.beginWrite()
         
-        let reservation = Reservation(value: ["name": name, "person": person, /*"startTime": start, "endTime": end, */"phone": phoneTextField.text!, "notes": notesTextField.text!])
-
+        if reservation == nil {
+            reservation = Reservation()
+        }
+        
+        reservation!.name = name
+        reservation!.person = person
+        reservation!.phone = phoneTextField.text!
+        reservation!.notes = notesTextField.text!
+        
+        
         if startDateTextLabel.text?.characters.count > 0 {
             startDateTextLabel.becomeFirstResponder()
-            reservation.startTime = startDate!
+            reservation!.startTime = startDate!
         } else {
             let alertController = UIAlertController(title: "Validation", message: "Input Start Date", preferredStyle: .Alert)
             let canselAction: UIAlertAction = UIAlertAction(title: "Ok", style: .Cancel) { action -> Void in }
@@ -226,20 +246,28 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             presentViewController(alertController, animated: true, completion: nil)
         }
         
-        
         if endDateTextLable.text?.characters.count > 0 {
             endDateTextLable.becomeFirstResponder()
-            reservation.endTime = endDate!
+            reservation!.endTime = endDate!
         } else {
             let alertController = UIAlertController(title: "Validation", message: "Input End Date", preferredStyle: .Alert)
             let canselAction: UIAlertAction = UIAlertAction(title: "Ok", style: .Cancel) { action -> Void in }
             alertController.addAction(canselAction)
             presentViewController(alertController, animated: true, completion: nil)
         }
-        table.reserve(reservation)
-        try! realm.commitWrite()
+        
 
+        if endDate?.compare(startDate!) == NSComparisonResult.OrderedAscending {
+                endDate = startDate
+        }
+        
+            
+        table.reserve(reservation!)
+            
+        try! realm.commitWrite()
+        
         navigationController?.popViewControllerAnimated(true)
+        
     }
 }
     

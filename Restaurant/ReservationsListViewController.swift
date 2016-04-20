@@ -21,19 +21,25 @@ class ReservationsListViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    @IBAction func editTextLable(sender: UIButton) {
-    print("EDIT!!!")
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let reservation = reservations[indexPath.row]
         
+        performSegueWithIdentifier("editReservation", sender: reservation)
     }
     
+
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "addReservation" {
             
             let controller = segue.destinationViewController as! DetailViewController
             controller.table = table
+        } else if segue.identifier == "editReservation" {
+            let controller = segue.destinationViewController as! DetailViewController
+            controller.table = table
+            controller.reservation = sender as? Reservation
         }
     }
-        
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return reservations.count
     }
@@ -51,6 +57,7 @@ class ReservationsListViewController: UITableViewController {
         cell.startTimeLabel.text = "From: \(dateFormatter.stringFromDate(reservation.startTime))"
         cell.endTimeLabel.text = "To: \(dateFormatter.stringFromDate(reservation.endTime))"
         cell.phoneNumberLabel.text = "Phone +38 \(reservation.phone)"
+       
         return cell
     }
     

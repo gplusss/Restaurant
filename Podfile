@@ -6,5 +6,6 @@ use_frameworks!
 
 target 'Restaurant' do
 	pod 'RealmSwift'
+    pod 'SwiftDate'
 end
 

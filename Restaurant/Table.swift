@@ -15,7 +15,7 @@ var reservation = [Reservation]()
 
 class Table: Object {
     dynamic var name = ""
-    dynamic var limitPersons = 0
+    dynamic var limitPersons = Int()
     let reservations = List<Reservation>()
     
     convenience init(name: String, limitPersons: Int) {
@@ -34,13 +34,15 @@ class Table: Object {
     }
 
     func reserve(reservation: Reservation) {
-        reservations.append(reservation)
-    }
+        //if reservations.indexOf(reservation) == NSNotFound {
+            reservations.append(reservation)
+        }
+   // }
 }
 
 class Reservation: Object {
     dynamic var name = ""
-    dynamic var person = 0
+    dynamic var person = Int()
     dynamic var startTime = NSDate()
     dynamic var endTime = NSDate()
     dynamic var phone = ""
