@@ -22,14 +22,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if realm.objects(Table).count == 0 {
             realm.beginWrite()
             
-            realm.add(Table(name: "1", limitPersons: 10))
-            realm.add(Table(name: "2", limitPersons: 5))
-            realm.add(Table(name: "3", limitPersons: 2))
-            realm.add(Table(name: "4", limitPersons: 1))
-            realm.add(Table(name: "5", limitPersons: 2))
-            realm.add(Table(name: "6", limitPersons: 7))
-            realm.add(Table(name: "7", limitPersons: 6))
-            realm.add(Table(name: "8", limitPersons: 4))
+            realm.add(Table(name: "1", limitPersons: 4))
+            realm.add(Table(name: "2", limitPersons: 4))
+            realm.add(Table(name: "3", limitPersons: 6))
+            realm.add(Table(name: "4", limitPersons: 4))
+            realm.add(Table(name: "5", limitPersons: 8))
+            realm.add(Table(name: "6", limitPersons: 8))
+            realm.add(Table(name: "7", limitPersons: 3))
+            realm.add(Table(name: "8", limitPersons: 8))
+            realm.add(Table(name: "9", limitPersons: 6))
+            realm.add(Table(name: "10", limitPersons: 30))
+            realm.add(Table(name: "11", limitPersons: 30))
+            realm.add(Table(name: "12", limitPersons: 10))
             
             // Commit the write transaction
             // to make this data available to other threads

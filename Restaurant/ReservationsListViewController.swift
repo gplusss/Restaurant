@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import RealmSwift
+import SwiftDate
 
 class ReservationsListViewController: UITableViewController {
     var table: Table!
@@ -16,10 +17,12 @@ class ReservationsListViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
+        self.tableView.allowsMultipleSelectionDuringEditing = true
+        reservations = table.reservations.sorted("startTime", ascending: true).toArray(Reservation)
         
-        reservations = table.reservations.sorted("startTime", ascending: false).toArray(Reservation)
         tableView.reloadData()
     }
+    
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let reservation = reservations[indexPath.row]
@@ -49,25 +52,22 @@ class ReservationsListViewController: UITableViewController {
         
         let reservation = reservations[indexPath.row]
         
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = .MediumStyle
-        dateFormatter.timeStyle = .ShortStyle
         cell.nameLable.text = "Reserved by: \(reservation.name)"
         cell.personsLable.text = "The number of guests: \(reservation.person.description)"
-        cell.startTimeLabel.text = "From: \(dateFormatter.stringFromDate(reservation.startTime))"
-        cell.endTimeLabel.text = "To: \(dateFormatter.stringFromDate(reservation.endTime))"
+        cell.startTimeLabel.text = "From: \(reservation.startTime.toString()!)"
+        cell.endTimeLabel.text = "To: \(reservation.endTime.toString()!)"
         cell.phoneNumberLabel.text = "Phone +38 \(reservation.phone)"
-       
+        
+
+    
         return cell
     }
     
-//    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableView, forRowAtIndexPath indexPath: UITableView) {
-//
-//    }
     override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
         let deleteAction = UITableViewRowAction(style: .Default, title: "Delete") { action -> Void in
             let realm = try! Realm()
             realm.beginWrite()
+            
             
             let reservation = self.reservations[indexPath.row]
             realm.delete(reservation)

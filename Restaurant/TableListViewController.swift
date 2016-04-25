@@ -8,11 +8,30 @@
 
 import UIKit
 import RealmSwift
+import SwiftDate
 
 
 class TableListViewController: UITableViewController, UITextFieldDelegate {
     var tables = [Table]()
     var image = "logo.png.pagespeed.ce.k0Fb5IZC1v.png"
+    var reservation = Reservation()
+    
+    var table = Table()
+    
+    var startDate: NSDate?
+    var endDate: NSDate?
+    var segmentController: UISegmentedControl?
+    
+    @IBAction func segmentController(sender: UIBarButtonItem) {
+        
+        
+        func sortReservedTables() {
+        if table.isReserved() == true {
+            tables = tables.sort( { $0.limitPersons > $1.limitPersons } )
+        }
+    }
+        
+}
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,12 +41,13 @@ class TableListViewController: UITableViewController, UITextFieldDelegate {
         for table in realm.objects(Table) {
             tables.append(table)
         }
-        
+        navigationController?.hidesBarsOnSwipe = true
         tableView.reloadData()
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
         
         tableView.reloadData()
     }
@@ -48,11 +68,14 @@ class TableListViewController: UITableViewController, UITextFieldDelegate {
     
         cell.tableNameLabel.text = table.title()
         cell.tableNameLabel.font = UIFont.boldSystemFontOfSize(25)
-        cell.sitsLabel.text = "\(table.limitPersons) sits"
-        cell.reserverdLabel.text = table.isReserved() ? "Reserved" : "Free"
+        cell.sitsLabel.text = "\(table.limitPersons) SITS"
+        cell.reserverdLabel.text = table.isReserved() ? "RESERVED" : "FREE"
         cell.reserverdLabel.font = UIFont.boldSystemFontOfSize(15)
         cell.reserverdLabel.textColor = table.isReserved() ? UIColor.redColor() : UIColor.greenColor()
         cell.imageLable.image = UIImage(named: "logo.png.pagespeed.ce.k0Fb5IZC1v.png")
+        cell.timeLabel.text = "\(table.reservations.count)"
+        
+        
         
         return cell
     }

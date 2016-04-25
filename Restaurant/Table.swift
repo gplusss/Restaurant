@@ -11,13 +11,12 @@ import RealmSwift
 import SwiftDate
 
 var currentDate = NSDate()
-var reservation = [Reservation]()
-
 
 class Table: Object {
     dynamic var name = ""
     dynamic var limitPersons = Int()
     let reservations = List<Reservation>()
+    
     
     convenience init(name: String, limitPersons: Int) {
         self.init() //Please note this says 'self' and not 'super'
@@ -26,16 +25,34 @@ class Table: Object {
     }
     
     func title() -> String {
-        return "Table №\(self.name)"
+        return "TABLE №\(self.name)"
     }
-    
+    //TO DO
     func isReserved() -> Bool {
-        //if ((reservation.startTime.compare(currentDate) == NSComparisonResult.OrderedAscending)
-        return reservations.first?.startTime.compare(currentDate) == NSComparisonResult.OrderedDescending
-    }
+//        if  reservations.count > 0 {
+//          //return reservations.first?.startTime > currentDate
+//        return reservations[0].startTime.isInToday()
+//    }
+//        return false
+        if reservations.count > 0 {
+        
+        for time in reservations {
+            if time.startTime.isInToday() && time.startTime > currentDate {
+                return true
+            } else {
+                return false
+            }
+        }
+        } else {
+            return false
+        }
+        return true
+        
+}
 
     func reserve(reservation: Reservation) {
-        if reservations.indexOf(reservation) == NSNotFound {
+        if reservation.table == nil {
+            reservation.table = self
             reservations.append(reservation)
         }
     }

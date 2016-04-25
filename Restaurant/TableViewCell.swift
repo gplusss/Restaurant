@@ -15,5 +15,6 @@ class TableViewCell: UITableViewCell {
     @IBOutlet weak var sitsLabel: UILabel!
     @IBOutlet weak var tableNameLabel: UILabel!
     @IBOutlet weak var imageLable: UIImageView!
+    
 }
 
