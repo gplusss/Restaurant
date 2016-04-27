@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
         let realm = try! Realm()
+       
         
         if realm.objects(Table).count == 0 {
             realm.beginWrite()

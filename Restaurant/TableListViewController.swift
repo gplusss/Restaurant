@@ -8,7 +8,6 @@
 
 import UIKit
 import RealmSwift
-import SwiftDate
 
 
 class TableListViewController: UITableViewController, UITextFieldDelegate {
@@ -16,23 +15,33 @@ class TableListViewController: UITableViewController, UITextFieldDelegate {
     var image = "logo.png.pagespeed.ce.k0Fb5IZC1v.png"
     var reservation = Reservation()
     
-    var table = Table()
+    //var table = Table()
     
     var startDate: NSDate?
     var endDate: NSDate?
-    var segmentController: UISegmentedControl?
+    
+    
+    @IBOutlet weak var segmentController: UISegmentedControl!
     
     @IBAction func segmentController(sender: UIBarButtonItem) {
         
         
-        func sortReservedTables() {
-        if table.isReserved() == true {
-            tables = tables.sort( { $0.limitPersons > $1.limitPersons } )
+        switch segmentController.selectedSegmentIndex {
+            
+        case 0:
+            tables.sortInPlace( { $0.reserved < $1.reserved } )
+            tableView.reloadData()
+            break
+        case 1:
+            tables.sortInPlace( { $0.free < $1.free } )
+            tableView.reloadData()
+            break
+        default:
+            break
         }
-    }
+
         
 }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -47,7 +56,6 @@ class TableListViewController: UITableViewController, UITextFieldDelegate {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
         
         tableView.reloadData()
     }
@@ -69,7 +77,7 @@ class TableListViewController: UITableViewController, UITextFieldDelegate {
         cell.tableNameLabel.text = table.title()
         cell.tableNameLabel.font = UIFont.boldSystemFontOfSize(25)
         cell.sitsLabel.text = "\(table.limitPersons) SITS"
-        cell.reserverdLabel.text = table.isReserved() ? "RESERVED" : "FREE"
+        cell.reserverdLabel.text = table.isReserved() ? String(table.reserved) : String(table.free)
         cell.reserverdLabel.font = UIFont.boldSystemFontOfSize(15)
         cell.reserverdLabel.textColor = table.isReserved() ? UIColor.redColor() : UIColor.greenColor()
         cell.imageLable.image = UIImage(named: "logo.png.pagespeed.ce.k0Fb5IZC1v.png")
@@ -79,7 +87,7 @@ class TableListViewController: UITableViewController, UITextFieldDelegate {
         
         return cell
     }
-    //MARK 
+
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let table = tables[indexPath.row]
 

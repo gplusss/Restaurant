@@ -15,6 +15,8 @@ var currentDate = NSDate()
 class Table: Object {
     dynamic var name = ""
     dynamic var limitPersons = Int()
+    dynamic var reserved = "RESERVED"
+    dynamic var free = "FREE"
     let reservations = List<Reservation>()
     
     
@@ -22,6 +24,7 @@ class Table: Object {
         self.init() //Please note this says 'self' and not 'super'
         self.name = name
         self.limitPersons = limitPersons
+        
     }
     
     func title() -> String {
