@@ -13,6 +13,7 @@
 		407559461C9ADEA10067B4C2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 407559441C9ADEA10067B4C2 /* Main.storyboard */; };
 		407559481C9ADEA10067B4C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 407559471C9ADEA10067B4C2 /* Assets.xcassets */; };
 		407559531C9AE0960067B4C2 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407559521C9AE0960067B4C2 /* TableViewCell.swift */; };
+		408A32F61CD74F9800892733 /* NSDate+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408A32F51CD74F9800892733 /* NSDate+Extensions.swift */; };
 		40A6C03C1CA7A7A000AB0452 /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A6C03B1CA7A7A000AB0452 /* Table.swift */; };
 		40AF426A1CB10E420008B3D6 /* ReservationsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AF42691CB10E420008B3D6 /* ReservationsListViewController.swift */; };
 		40EE62561CA8F37200650F42 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40EE62551CA8F37200650F42 /* Launch Screen.storyboard */; };
@@ -31,6 +32,7 @@
 		407559471C9ADEA10067B4C2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4075594C1C9ADEA10067B4C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		407559521C9AE0960067B4C2 /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		408A32F51CD74F9800892733 /* NSDate+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Extensions.swift"; sourceTree = "<group>"; };
 		40A6C03B1CA7A7A000AB0452 /* Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
 		40AF42691CB10E420008B3D6 /* ReservationsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReservationsListViewController.swift; sourceTree = "<group>"; };
 		40EE62551CA8F37200650F42 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 				407559471C9ADEA10067B4C2 /* Assets.xcassets */,
 				4075594C1C9ADEA10067B4C2 /* Info.plist */,
 				40EE62551CA8F37200650F42 /* Launch Screen.storyboard */,
+				408A32F51CD74F9800892733 /* NSDate+Extensions.swift */,
 			);
 			path = Restaurant;
 			sourceTree = "<group>";
@@ -232,6 +235,7 @@
 				40F547961CB3D37000367000 /* ReservationTableViewCell.swift in Sources */,
 				40A6C03C1CA7A7A000AB0452 /* Table.swift in Sources */,
 				40AF426A1CB10E420008B3D6 /* ReservationsListViewController.swift in Sources */,
+				408A32F61CD74F9800892733 /* NSDate+Extensions.swift in Sources */,
 				407559531C9AE0960067B4C2 /* TableViewCell.swift in Sources */,
 				40EE625A1CA905EE00650F42 /* DetailViewController.swift in Sources */,
 				4073A02E1CC147CE002CEFF5 /* Realm+Extensions.swift in Sources */,

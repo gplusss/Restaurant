@@ -24,8 +24,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
     var startDate: NSDate?
     var endDate: NSDate?
-    var image = "DSC_3830_compr-1024x679.jpg"
-    
     
     var table: Table!
     var reservation: Reservation?
@@ -91,8 +89,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             phoneTextField.text = reservation!.phone
             
         }
-        
-        imageViewLabel.image = UIImage(named: image)
         
         nameTextField.becomeFirstResponder()
         
@@ -202,16 +198,14 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         guard let name = nameTextField.text where name.characters.count > 0 else {
             let alertController = UIAlertController(title: "Validation", message: "PLease type your name", preferredStyle: .Alert)
             
-            let cancelAction: UIAlertAction = UIAlertAction(title: "OK", style: .Cancel) { action -> Void in
-
-            }
+            let cancelAction: UIAlertAction = UIAlertAction(title: "OK", style: .Cancel) { action -> Void in }
             self.nameTextField.becomeFirstResponder()
             alertController.addAction(cancelAction)
             presentViewController(alertController, animated: true, completion: nil)
             return
         }
         guard let person = Int(personsTextField.text!) where person <= table.limitPersons else {
-            let alertController = UIAlertController(title: "Validation", message: "The max number of guest may be \(table.limitPersons) ", preferredStyle: .Alert)
+            let alertController = UIAlertController(title: "Validation", message: "The number of guest may be less than \(table.limitPersons) ", preferredStyle: .Alert)
         
             let cancelAction: UIAlertAction = UIAlertAction(title: "OK", style: .Cancel) { action -> Void in }
                 self.personsTextField.becomeFirstResponder()
@@ -221,10 +215,10 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         }
         
         if endDate < startDate {
-            let alertController = UIAlertController(title: "Validation", message: "EndDate > StartDate", preferredStyle: .Alert)
+            let alertController = UIAlertController(title: "Validation", message: "EndDate < StartDate", preferredStyle: .Alert)
             
             let cancelAction: UIAlertAction = UIAlertAction(title: "OK", style: .Cancel) { action -> Void in }
-            self.personsTextField.becomeFirstResponder()
+            self.endDateTextLable.becomeFirstResponder()
             endDate = startDate
             alertController.addAction(cancelAction)
             presentViewController(alertController, animated: true, completion: nil)
@@ -248,6 +242,10 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             alertController.addAction(canselAction)
             presentViewController(alertController, animated: true, completion: nil)
         }
+        
+        let pers : UITextField = personsTextField
+        let placeholder = NSAttributedString(string: "Some", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
+        pers.attributedPlaceholder = placeholder
         
         let realm = try! Realm()
 

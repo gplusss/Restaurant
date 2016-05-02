@@ -15,10 +15,7 @@ var currentDate = NSDate()
 class Table: Object {
     dynamic var name = ""
     dynamic var limitPersons = Int()
-    dynamic var reserved = "RESERVED"
-    dynamic var free = "FREE"
     let reservations = List<Reservation>()
-    
     
     convenience init(name: String, limitPersons: Int) {
         self.init() //Please note this says 'self' and not 'super'
@@ -30,28 +27,14 @@ class Table: Object {
     func title() -> String {
         return "TABLE №\(self.name)"
     }
-    //TO DO
+
     func isReserved() -> Bool {
-//        if  reservations.count > 0 {
-//          //return reservations.first?.startTime > currentDate
-//        return reservations[0].startTime.isInToday()
-//    }
-//        return false
-        if reservations.count > 0 {
-        
-        for time in reservations {
-            if time.startTime.isInToday() && time.startTime > currentDate {
-                return true
-            } else {
-                return false
-            }
+        if reservations.sorted("startTime", ascending: true).filter(Reservation.todayPredicate()).count > 0 {
+            return true
         }
-        } else {
-            return false
-        }
-        return true
-        
-}
+            
+        return false
+    }
 
     func reserve(reservation: Reservation) {
         if reservation.table == nil {
@@ -81,5 +64,13 @@ class Reservation: Object {
         
     }
 
+    static func todayPredicate() -> NSPredicate {
+        return NSPredicate(format: "(startTime < %@ AND startTime > %@)", NSDate().endOfDay(), NSDate().beginningOfDay())
+    }
+    
+    static func tomorrowPredicate() -> NSPredicate {
+        let tomorrow = NSDate() + 1.days
+        return NSPredicate(format: "startTime > %@", tomorrow.beginningOfDay())
+    }
 }
 
