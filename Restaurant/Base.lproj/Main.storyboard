@@ -89,28 +89,8 @@
                             <outlet property="delegate" destination="3zA-5P-pRx" id="WdW-Fm-IbJ"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="J5R-Lk-kds">
-                        <barButtonItem key="leftBarButtonItem" style="plain" id="acO-YE-MbV">
-                            <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="wIj-EB-HHr">
-                                <rect key="frame" x="20" y="7" width="200" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <segments>
-                                    <segment title="RESEVED"/>
-                                    <segment title="FREE"/>
-                                    <segment title="ALL"/>
-                                </segments>
-                                <color key="tintColor" red="1" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
-                                <connections>
-                                    <action selector="segmentController:" destination="3zA-5P-pRx" eventType="valueChanged" id="a1R-cd-VqA"/>
-                                </connections>
-                            </segmentedControl>
-                            <connections>
-                                <action selector="segmentController:" destination="3zA-5P-pRx" id="8S7-lc-Zir"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="J5R-Lk-kds"/>
                     <connections>
-                        <outlet property="segmentController" destination="wIj-EB-HHr" id="8nu-Z1-poW"/>
                         <segue destination="fwW-em-VEr" kind="show" identifier="showDetails" id="06v-ZS-FTV"/>
                     </connections>
                 </tableViewController>
@@ -319,7 +299,7 @@
                                     <action selector="addReservation:" destination="eoG-dB-icg" eventType="touchUpInside" id="9Gc-gn-mi7"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" alpha="0.29999999999999999" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IMG_0491-660x440" translatesAutoresizingMaskIntoConstraints="NO" id="yrF-lT-Ax5">
+                            <imageView userInteractionEnabled="NO" alpha="0.29999999999999999" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IMG_0626-660x440" translatesAutoresizingMaskIntoConstraints="NO" id="yrF-lT-Ax5">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
                         </subviews>
@@ -365,7 +345,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="IMG_0491-660x440" width="660" height="440"/>
+        <image name="IMG_0626-660x440" width="660" height="440"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="4pZ-vw-TKH"/>
