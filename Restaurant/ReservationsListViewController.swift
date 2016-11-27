@@ -14,70 +14,71 @@ import SwiftDate
 class ReservationsListViewController: UITableViewController {
     var table: Table!
     var reservations: [Reservation]!
+    let customDateString = "dd.MM.YYYY, HH:MM"
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(true)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.tableView.allowsMultipleSelectionDuringEditing = true
-        reservations = table.reservations.sorted("startTime", ascending: true).toArray(Reservation)
+        reservations = table.reservations.sorted(byProperty: "startTime", ascending: true).toArray(Reservation.self)
         
         tableView.reloadData()
     }
     
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let reservation = reservations[indexPath.row]
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let reservation = reservations[(indexPath as NSIndexPath).row]
         
-        performSegueWithIdentifier("editReservation", sender: reservation)
+        performSegue(withIdentifier: "editReservation", sender: reservation)
     }
     
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "addReservation" {
             
-            let controller = segue.destinationViewController as! DetailViewController
+            let controller = segue.destination as! DetailViewController
             controller.table = table
         } else if segue.identifier == "editReservation" {
-            let controller = segue.destinationViewController as! DetailViewController
+            let controller = segue.destination as! DetailViewController
             controller.table = table
             controller.reservation = sender as? Reservation
         }
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return reservations.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("ReservationTableViewCell", forIndexPath: indexPath) as! ReservationTableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ReservationTableViewCell", for: indexPath) as! ReservationTableViewCell
         
-        let reservation = reservations[indexPath.row]
+        let reservation = reservations[(indexPath as NSIndexPath).row]
         
         cell.nameLable.text = "Reserved by: \(reservation.name)"
         cell.personsLable.text = "The number of guests: \(reservation.person.description)"
-        cell.startTimeLabel.text = "From: \(reservation.startTime.toString()!)"
-        cell.endTimeLabel.text = "To: \(reservation.endTime.toString()!)"
-        cell.phoneNumberLabel.text = "Phone +38 \(reservation.phone)"
+        cell.startTimeLabel.text = "From: \(reservation.startTime)"//.string(custom: customDateString))"
+        cell.endTimeLabel.text = "To: \(reservation.endTime)"//.string(custom: customDateString))"
+        cell.phoneNumberLabel.text = "PHONE: +38\(reservation.phone)"
+        cell.phoneNumberLabel.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.title2)
+        cell.nameLable.shadowColor = UIColor.blue
         
-
-    
         return cell
     }
     
-    override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-        let deleteAction = UITableViewRowAction(style: .Default, title: "Delete") { action -> Void in
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let deleteAction = UITableViewRowAction(style: .normal, title: "Delete") { action -> Void in
             let realm = try! Realm()
             realm.beginWrite()
             
             
-            let reservation = self.reservations[indexPath.row]
+            let reservation = self.reservations[(indexPath as NSIndexPath).row]
             realm.delete(reservation)
             
             try! realm.commitWrite()
 
-            self.reservations.removeAtIndex(indexPath.row)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            self.reservations.remove(at: (indexPath as NSIndexPath).row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
          }
-        deleteAction.backgroundColor = UIColor.redColor()
+        deleteAction.backgroundColor = UIColor.brown
         
         return [deleteAction]
         

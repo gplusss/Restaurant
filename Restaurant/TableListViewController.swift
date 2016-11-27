@@ -11,30 +11,32 @@ import RealmSwift
 import SwiftDate
 
 enum SegmentIndex: Int {
-    case Today, Tommorow, All
+    case today, tommorow, all
 }
 
 class TableListViewController: UITableViewController, UITextFieldDelegate {
     var tables = [Table]()
     var image = "logo.png.pagespeed.ce.k0Fb5IZC1v.png"
     var reservation = Reservation()
+    let segmentController = UISegmentedControl()
+    let notification = UILocalNotification()
+    
 
-    
-    @IBOutlet weak var segmentController: UISegmentedControl!
-    
-    @IBAction func segmentController(sender: UIBarButtonItem) {
+    func segmentController(_ sender: UISegmentedControl) {
+        
         let realm = try! Realm()
 
         var results: Results<Table>?
         if let index = SegmentIndex(rawValue: segmentController.selectedSegmentIndex) {
             switch index {
-            case .Today:
-                results = realm.objects(Table).filter(NSPredicate(format: "SUBQUERY(reservations, $reservation, $reservation.startTime < %@ AND $reservation.startTime > %@).@count > 0", NSDate().endOfDay(), NSDate().beginningOfDay()))
-            case .Tommorow:
-                let tomorrow = NSDate() + 1.days
-                results = realm.objects(Table).filter(NSPredicate(format: "SUBQUERY(reservations, $reservation,$reservation.startTime > %@).@count > 0", tomorrow.beginningOfDay()))
-            case .All:
-                results = realm.objects(Table)
+            case .today:
+                results = realm.objects(Table.self).filter(NSPredicate(format: "SUBQUERY(reservations, $reservation, $reservation.startTime < %@ AND $reservation.startTime > %@).@count > 0", Date().endOfDay as CVarArg, Date().beginningOfDay() as CVarArg))
+            case .tommorow:
+                let tomorrow = Date() + 1.days
+                results = realm.objects(Table.self).filter(NSPredicate(format: "SUBQUERY(reservations, $reservation,$reservation.startTime > %@).@count > 0 OR reservations.@count == 0", tomorrow.beginningOfDay() as CVarArg))
+            case .all:
+                
+                results = realm.objects(Table.self)
             }
         }
         
@@ -50,18 +52,35 @@ class TableListViewController: UITableViewController, UITextFieldDelegate {
     }
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
+        if notification.fireDate == reservation.startTime {
+            notification.alertBody = "Notification Received"
+        }
+        segmentController.frame = CGRect(x: 200, y: 30, width: 200, height: 30)
+        segmentController.insertSegment(withTitle: "RESERVED", at: 0, animated: true)
+        segmentController.insertSegment(withTitle: "FREE", at: 1, animated: true)
+        segmentController.insertSegment(withTitle: "ALL", at: 2, animated: true)
+        segmentController.tintColor = UIColor.brown
+
+        segmentController.addTarget(self, action: #selector(TableListViewController.segmentController(_:)), for: UIControlEvents.valueChanged)
+        self.view.addSubview(segmentController)
+        segmentController.selectedSegmentIndex = 2
+        self.navigationItem.titleView = segmentController
+    
         let realm = try! Realm()
         
-        for table in realm.objects(Table) {
+        for table in realm.objects(Table.self) {
             tables.append(table)
         }
         navigationController?.hidesBarsOnSwipe = true
+        UIApplication.shared.scheduleLocalNotification(notification)
         tableView.reloadData()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         tableView.reloadData()
@@ -72,37 +91,37 @@ class TableListViewController: UITableViewController, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tables.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("TableViewCell", forIndexPath: indexPath) as! TableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! TableViewCell
         
-        let table = tables[indexPath.row]
+        let table = tables[(indexPath as NSIndexPath).row]
     
         cell.tableNameLabel.text = table.title()
-        cell.tableNameLabel.font = UIFont.boldSystemFontOfSize(25)
+        cell.tableNameLabel.font = UIFont.boldSystemFont(ofSize: 25)
         cell.sitsLabel.text = "\(table.limitPersons) SITS"
         cell.reserverdLabel.text = table.isReserved() ? "RESERVED" : "FREE"
-        cell.reserverdLabel.font = UIFont.boldSystemFontOfSize(15)
-        cell.reserverdLabel.textColor = table.isReserved() ? UIColor.redColor() : UIColor.greenColor()
+        cell.reserverdLabel.font = UIFont.boldSystemFont(ofSize: 15)
+        cell.reserverdLabel.textColor = table.isReserved() ? UIColor.red : UIColor.green
         cell.imageLable.image = UIImage(named: "logo.png.pagespeed.ce.k0Fb5IZC1v.png")
         cell.timeLabel.text = "\(table.reservations.count)"
         
         return cell
     }
 
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let table = tables[indexPath.row]
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let table = tables[(indexPath as NSIndexPath).row]
 
-        performSegueWithIdentifier("showDetails", sender: table)
+        performSegue(withIdentifier: "showDetails", sender: table)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetails" {
             
-            let controller = segue.destinationViewController as! ReservationsListViewController
+            let controller = segue.destination as! ReservationsListViewController
             if let table = sender as? Table {
                 controller.table = table
             }

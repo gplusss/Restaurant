@@ -8,19 +8,19 @@
 
 import Foundation
 
-extension NSDate {
+extension Date {
     
-    func beginningOfDay() -> NSDate {
-        let calendar = NSCalendar.currentCalendar()
-        let components = calendar.components([.Year, .Month, .Day], fromDate: self)
-        return calendar.dateFromComponents(components)!
+    func beginningOfDay() -> Date {
+        let calendar = Calendar.current
+        let components = (calendar as NSCalendar).components([.year, .month, .day], from: self)
+        return calendar.date(from: components)!
     }
     
-    func endOfDay() -> NSDate {
-        let components = NSDateComponents()
+    func endOfDay() -> Date {
+        var components = DateComponents()
         components.day = 1
-        var date = NSCalendar.currentCalendar().dateByAddingComponents(components, toDate: self.beginningOfDay(), options: [])!
-        date = date.dateByAddingTimeInterval(-1)
+        var date = (Calendar.current as NSCalendar).date(byAdding: components, to: self.beginningOfDay(), options: [])!
+        date = date.addingTimeInterval(-1)
         return date
     }
 }

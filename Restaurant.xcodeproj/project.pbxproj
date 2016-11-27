@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4062265C1DBF0AB900A330A3 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4062265A1DBF0AB900A330A3 /* Realm.framework */; };
+		4062265D1DBF0AB900A330A3 /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4062265A1DBF0AB900A330A3 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4062265E1DBF0AB900A330A3 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4062265B1DBF0AB900A330A3 /* RealmSwift.framework */; };
+		4062265F1DBF0AB900A330A3 /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4062265B1DBF0AB900A330A3 /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4073A02E1CC147CE002CEFF5 /* Realm+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4073A02D1CC147CD002CEFF5 /* Realm+Extensions.swift */; };
 		407559411C9ADEA10067B4C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407559401C9ADEA10067B4C2 /* AppDelegate.swift */; };
 		407559431C9ADEA10067B4C2 /* TableListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407559421C9ADEA10067B4C2 /* TableListViewController.swift */; };
@@ -19,11 +23,27 @@
 		40EE62561CA8F37200650F42 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40EE62551CA8F37200650F42 /* Launch Screen.storyboard */; };
 		40EE625A1CA905EE00650F42 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EE62591CA905EE00650F42 /* DetailViewController.swift */; };
 		40F547961CB3D37000367000 /* ReservationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F547951CB3D37000367000 /* ReservationTableViewCell.swift */; };
-		4E4F5ED5EDCE489EA5297D4F /* Pods_Restaurant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38008153D1CCEB92F5D22C14 /* Pods_Restaurant.framework */; };
+		9AE64670B13A3BC79451CB0C /* Pods_Restaurant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C517BB5B05E62B9516B6E7B0 /* Pods_Restaurant.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		406226601DBF0AB900A330A3 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4062265F1DBF0AB900A330A3 /* RealmSwift.framework in Embed Frameworks */,
+				4062265D1DBF0AB900A330A3 /* Realm.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		38008153D1CCEB92F5D22C14 /* Pods_Restaurant.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Restaurant.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4062265A1DBF0AB900A330A3 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
+		4062265B1DBF0AB900A330A3 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = "<group>"; };
 		4073A02D1CC147CD002CEFF5 /* Realm+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Realm+Extensions.swift"; sourceTree = "<group>"; };
 		4075593D1C9ADEA10067B4C2 /* Restaurant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Restaurant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		407559401C9ADEA10067B4C2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -38,8 +58,9 @@
 		40EE62551CA8F37200650F42 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		40EE62591CA905EE00650F42 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		40F547951CB3D37000367000 /* ReservationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReservationTableViewCell.swift; sourceTree = "<group>"; };
-		4FB35B5D696D94F8578E2683 /* Pods-Restaurant.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Restaurant.release.xcconfig"; path = "Pods/Target Support Files/Pods-Restaurant/Pods-Restaurant.release.xcconfig"; sourceTree = "<group>"; };
-		A8CDF58A9C9FEBE5FABB9D72 /* Pods-Restaurant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Restaurant.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Restaurant/Pods-Restaurant.debug.xcconfig"; sourceTree = "<group>"; };
+		5EBA4032DD1F9C09D096FBF4 /* Pods-Restaurant.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Restaurant.release.xcconfig"; path = "Pods/Target Support Files/Pods-Restaurant/Pods-Restaurant.release.xcconfig"; sourceTree = "<group>"; };
+		66878AF2D23DF53081E18984 /* Pods-Restaurant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Restaurant.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Restaurant/Pods-Restaurant.debug.xcconfig"; sourceTree = "<group>"; };
+		C517BB5B05E62B9516B6E7B0 /* Pods_Restaurant.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Restaurant.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,7 +68,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4E4F5ED5EDCE489EA5297D4F /* Pods_Restaurant.framework in Frameworks */,
+				4062265C1DBF0AB900A330A3 /* Realm.framework in Frameworks */,
+				4062265E1DBF0AB900A330A3 /* RealmSwift.framework in Frameworks */,
+				9AE64670B13A3BC79451CB0C /* Pods_Restaurant.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,8 +82,8 @@
 			children = (
 				4075593F1C9ADEA10067B4C2 /* Restaurant */,
 				4075593E1C9ADEA10067B4C2 /* Products */,
-				FF6FD3DBD3E751AF54B0C86F /* Pods */,
 				E4977857F9C42CD056003965 /* Frameworks */,
+				EF06CB15BC9E31B9C6A41B29 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -83,11 +106,11 @@
 				40F547951CB3D37000367000 /* ReservationTableViewCell.swift */,
 				40EE62591CA905EE00650F42 /* DetailViewController.swift */,
 				40AF42691CB10E420008B3D6 /* ReservationsListViewController.swift */,
+				408A32F51CD74F9800892733 /* NSDate+Extensions.swift */,
 				407559441C9ADEA10067B4C2 /* Main.storyboard */,
 				407559471C9ADEA10067B4C2 /* Assets.xcassets */,
 				4075594C1C9ADEA10067B4C2 /* Info.plist */,
 				40EE62551CA8F37200650F42 /* Launch Screen.storyboard */,
-				408A32F51CD74F9800892733 /* NSDate+Extensions.swift */,
 			);
 			path = Restaurant;
 			sourceTree = "<group>";
@@ -95,16 +118,18 @@
 		E4977857F9C42CD056003965 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				38008153D1CCEB92F5D22C14 /* Pods_Restaurant.framework */,
+				4062265B1DBF0AB900A330A3 /* RealmSwift.framework */,
+				4062265A1DBF0AB900A330A3 /* Realm.framework */,
+				C517BB5B05E62B9516B6E7B0 /* Pods_Restaurant.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		FF6FD3DBD3E751AF54B0C86F /* Pods */ = {
+		EF06CB15BC9E31B9C6A41B29 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				A8CDF58A9C9FEBE5FABB9D72 /* Pods-Restaurant.debug.xcconfig */,
-				4FB35B5D696D94F8578E2683 /* Pods-Restaurant.release.xcconfig */,
+				66878AF2D23DF53081E18984 /* Pods-Restaurant.debug.xcconfig */,
+				5EBA4032DD1F9C09D096FBF4 /* Pods-Restaurant.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -116,12 +141,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4075594F1C9ADEA10067B4C2 /* Build configuration list for PBXNativeTarget "Restaurant" */;
 			buildPhases = (
-				F0B6235166236B3971FC9A6E /* Check Pods Manifest.lock */,
+				110004A35E31E6119E72719F /* [CP] Check Pods Manifest.lock */,
 				407559391C9ADEA10067B4C2 /* Sources */,
 				4075593A1C9ADEA10067B4C2 /* Frameworks */,
 				4075593B1C9ADEA10067B4C2 /* Resources */,
-				DBC1C8EAF010EE7426DFAF6A /* Embed Pods Frameworks */,
-				450AB3AEB46A4377CFEAE9F9 /* Copy Pods Resources */,
+				406226601DBF0AB900A330A3 /* Embed Frameworks */,
+				B96965088AF9ABB44C483625 /* [CP] Embed Pods Frameworks */,
+				10D653F6657FD9F706DB84A6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -139,12 +165,18 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "Vladimir Saprykin";
 				TargetAttributes = {
 					4075593C1C9ADEA10067B4C2 = {
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = D679G69XAU;
+						LastSwiftMigration = 0800;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -180,14 +212,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		450AB3AEB46A4377CFEAE9F9 /* Copy Pods Resources */ = {
+		10D653F6657FD9F706DB84A6 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -195,34 +227,34 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Restaurant/Pods-Restaurant-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		DBC1C8EAF010EE7426DFAF6A /* Embed Pods Frameworks */ = {
+		110004A35E31E6119E72719F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		B96965088AF9ABB44C483625 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Restaurant/Pods-Restaurant-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F0B6235166236B3971FC9A6E /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -271,8 +303,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -315,8 +349,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -335,38 +371,73 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
 		407559501C9ADEA10067B4C2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A8CDF58A9C9FEBE5FABB9D72 /* Pods-Restaurant.debug.xcconfig */;
+			baseConfigurationReference = 66878AF2D23DF53081E18984 /* Pods-Restaurant.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
+				CODE_SIGN_ENTITLEMENTS = Restaurant/Restaurant.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Restaurant/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-framework",
+					"\"Realm\"",
+					"-framework",
+					"\"RealmSwift\"",
+					"-framework",
+					"\"SwiftDate\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = gplusss.Restaurant;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		407559511C9ADEA10067B4C2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4FB35B5D696D94F8578E2683 /* Pods-Restaurant.release.xcconfig */;
+			baseConfigurationReference = 5EBA4032DD1F9C09D096FBF4 /* Pods-Restaurant.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
+				CODE_SIGN_ENTITLEMENTS = Restaurant/Restaurant.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Restaurant/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-framework",
+					"\"Realm\"",
+					"-framework",
+					"\"RealmSwift\"",
+					"-framework",
+					"\"SwiftDate\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = gplusss.Restaurant;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

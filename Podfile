@@ -5,7 +5,7 @@ use_frameworks!
 # My new comment
 
 target 'Restaurant' do
-	pod 'RealmSwift'
-    pod 'SwiftDate'
+        pod 'RealmSwift'
+        pod 'SwiftDate'
 end
 
