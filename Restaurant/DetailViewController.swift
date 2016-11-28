@@ -40,14 +40,15 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     @IBOutlet weak var addButton: UIButton!    
     @IBOutlet weak var imageViewLabel: UIImageView!
     @IBOutlet weak var personNumberLabel: UILabel!
+    @IBOutlet weak var callTextLabel: UILabel!
     @IBOutlet weak var stepper: UIStepper!
     @IBAction func stepperAction(_ sender: UIStepper) {
         personNumberLabel.text = "\(Int(stepper.value))"
     }
+    @IBOutlet weak var callIcon: UIImageView!
     @IBAction func makeCall(sender: UIButton) {
-        callNumber(phoneNumber: nameTextField.text!)
+        callNumber(phoneNumber: (phoneTextField?.text)!)
     }
-    
     
     var currentTextField: UITextField!
         
@@ -70,6 +71,8 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     }()
     
     func callNumber(phoneNumber: String) {
+        //let phoneNumber = phoneTextField.text
+        //callTextLabel.text = phoneTextField.text
         if let url = URL(string: "tel://\(phoneNumber)") {
             if #available(iOS 10, *) {
                 UIApplication.shared.open(url, options: [:], completionHandler: { (success) in
@@ -130,7 +133,8 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             endDateTextLable.text = String(describing: endDate!.string(custom: customDateString))
             notesTextView.text = reservation!.notes
             notesTextView.frame = frameRect
-            phoneTextField.text = reservation!.phone            
+            phoneTextField.text = reservation!.phone
+            
         }
         
         nameTextField.becomeFirstResponder()
@@ -138,8 +142,8 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         stepper.autorepeat = false
         stepper.minimumValue = 1
         stepper.maximumValue = Double(table.limitPersons)
-        //personsTextField.placeholder = "Max: \(table.limitPersons)"
-        
+        callTextLabel.text = "Call to \(phoneTextField!.text)"
+        callIcon.image = #imageLiteral(resourceName: "callIcon")
         title = table.title()
         
         for textField in textFields {
@@ -147,7 +151,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         }
         
         currentTextField = textFields.first!
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -177,60 +180,60 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
-    {
-        if (textField == phoneTextField)
-        {
-            let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
-            let components = newString.components(separatedBy: CharacterSet.decimalDigits.inverted)
-            
-            let decimalString = components.joined(separator: "") as NSString
-            let length = decimalString.length
-            let hasLeadingOne = length > 0 && decimalString.character(at: 0) == (1 as unichar)
-            
-            if length == 0 || (length > 10 && !hasLeadingOne) || length > 11
-            {
-                let newLength = (textField.text! as NSString).length + (string as NSString).length - range.length as Int
-                
-                return (newLength > 10) ? false : true
-            }
-            var index = 0 as Int
-            let formattedString = NSMutableString()
-            
-            if hasLeadingOne
-            {
-                formattedString.append("1 ")
-                index += 1
-            }
-            if (length - index) > 3
-            {
-                let areaCode = decimalString.substring(with: NSMakeRange(index, 3))
-                formattedString.appendFormat("(%@) ", areaCode)
-                index += 3
-            }
-            if length - index > 3
-            {
-                let prefix = decimalString.substring(with: NSMakeRange(index, 3))
-                formattedString.appendFormat("%@ ", prefix)
-                index += 3
-            }
-            if length - index > 3
-            {
-                let prefix = decimalString.substring(with: NSMakeRange(index, 2))
-                formattedString.appendFormat("%@ ", prefix)
-                index += 2
-            }
-            
-            let remainder = decimalString.substring(from: index)
-            formattedString.append(remainder)
-            textField.text = formattedString as String
-            return false
-        }
-        else
-        {
-            return true
-        }
-    }
+//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
+//    {
+//        if (textField == phoneTextField)
+//        {
+//            let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+//            let components = newString.components(separatedBy: CharacterSet.decimalDigits.inverted)
+//            
+//            let decimalString = components.joined(separator: "") as NSString
+//            let length = decimalString.length
+//            let hasLeadingOne = length > 0 && decimalString.character(at: 0) == (1 as unichar)
+//            
+//            if length == 0 || (length > 10 && !hasLeadingOne) || length > 11
+//            {
+//                let newLength = (textField.text! as NSString).length + (string as NSString).length - range.length as Int
+//                
+//                return (newLength > 10) ? false : true
+//            }
+//            var index = 0 as Int
+//            let formattedString = NSMutableString()
+//            
+//            if hasLeadingOne
+//            {
+//                formattedString.append("1")
+//                index += 1
+//            }
+//            if (length - index) > 3
+//            {
+//                let areaCode = decimalString.substring(with: NSMakeRange(index, 3))
+//                formattedString.appendFormat("%@", areaCode)
+//                index += 3
+//            }
+//            if length - index > 3
+//            {
+//                let prefix = decimalString.substring(with: NSMakeRange(index, 3))
+//                formattedString.appendFormat("%@", prefix)
+//                index += 3
+//            }
+//            if length - index > 3
+//            {
+//                let prefix = decimalString.substring(with: NSMakeRange(index, 2))
+//                formattedString.appendFormat("%@", prefix)
+//                index += 2
+//            }
+//            
+//            let remainder = decimalString.substring(from: index)
+//            formattedString.append(remainder)
+//            textField.text = formattedString as String
+//            return false
+//        }
+//        else
+//        {
+//            return true
+//        }
+//    }
     
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -297,10 +300,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             present(alertController, animated: true, completion: nil)
         }
         
-//        let pers : UITextField = personsTextField
-//        let placeholder = NSAttributedString(string: "Some", attributes: [NSForegroundColorAttributeName : UIColor.red])
-//        pers.attributedPlaceholder = placeholder
-        
         let realm = try! Realm()
 
         realm.beginWrite()
@@ -320,7 +319,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         
         try! realm.commitWrite()
         
-        navigationController?.popViewController(animated: true)
+        //navigationController?.popViewController(animated: true)
         
     }
 }

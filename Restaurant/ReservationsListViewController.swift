@@ -55,8 +55,8 @@ class ReservationsListViewController: UITableViewController {
         
         cell.nameLable.text = "Reserved by: \(reservation.name)"
         cell.personsLable.text = "The number of guests: \(reservation.person.description)"
-        cell.startTimeLabel.text = "From: \(reservation.startTime)"//.string(custom: customDateString))"
-        cell.endTimeLabel.text = "To: \(reservation.endTime)"//.string(custom: customDateString))"
+        cell.startTimeLabel.text = "From: \(reservation.startTime.string(custom: customDateString))"
+        cell.endTimeLabel.text = "To: \(reservation.endTime.string(custom: customDateString))"
         cell.phoneNumberLabel.text = "PHONE: +38\(reservation.phone)"
         cell.phoneNumberLabel.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.title2)
         cell.nameLable.shadowColor = UIColor.blue
