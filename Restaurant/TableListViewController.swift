@@ -19,8 +19,7 @@ class TableListViewController: UITableViewController, UITextFieldDelegate {
     var image = "logo.png.pagespeed.ce.k0Fb5IZC1v.png"
     var reservation = Reservation()
     let segmentController = UISegmentedControl()
-    let notification = UILocalNotification()
-    
+    let red = UIColor.red.cgColor
 
     func segmentController(_ sender: UISegmentedControl) {
         
@@ -55,10 +54,12 @@ class TableListViewController: UITableViewController, UITextFieldDelegate {
         
         super.viewDidLoad()
         
-        if notification.fireDate == reservation.startTime {
-            notification.alertBody = "Notification Received"
-        }
+
         segmentController.frame = CGRect(x: 200, y: 30, width: 200, height: 30)
+        segmentController.layer.borderColor = red
+        segmentController.layer.borderWidth  = 1
+        segmentController.layer.cornerRadius = 15
+        segmentController.layer.masksToBounds = true
         segmentController.insertSegment(withTitle: "RESERVED", at: 0, animated: true)
         segmentController.insertSegment(withTitle: "FREE", at: 1, animated: true)
         segmentController.insertSegment(withTitle: "ALL", at: 2, animated: true)
@@ -68,6 +69,7 @@ class TableListViewController: UITableViewController, UITextFieldDelegate {
         self.view.addSubview(segmentController)
         segmentController.selectedSegmentIndex = 2
         self.navigationItem.titleView = segmentController
+        
     
         let realm = try! Realm()
         
@@ -75,7 +77,7 @@ class TableListViewController: UITableViewController, UITextFieldDelegate {
             tables.append(table)
         }
         navigationController?.hidesBarsOnSwipe = true
-        UIApplication.shared.scheduleLocalNotification(notification)
+
         tableView.reloadData()
     }
     
@@ -129,7 +131,25 @@ class TableListViewController: UITableViewController, UITextFieldDelegate {
     }
 }
 
-
+//extension UISegmentedControl {
+//    func removeBorders() {
+//        setBackgroundImage(imageWithColor(color: backgroundColor!), for: .normal, barMetrics: .default)
+//        setBackgroundImage(imageWithColor(color: tintColor!), for: .selected, barMetrics: .default)
+//        setDividerImage(imageWithColor(color: UIColor.clear), forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
+//    }
+//    
+//    // create a 1x1 image with this color
+//    private func imageWithColor(color: UIColor) -> UIImage {
+//        let rect = CGRect(x: 0.0, y: 0.0, width: 1.0, height: 1.0)
+//        UIGraphicsBeginImageContext(rect.size)
+//        let context = UIGraphicsGetCurrentContext()
+//        context!.setFillColor(color.cgColor);
+//        context!.fill(rect);
+//        let image = UIImage(named: "callIcon")//UIGraphicsGetImageFromCurrentImageContext()
+//        //UIGraphicsEndImageContext()
+//        return image!
+//    }
+//}
 
 
 

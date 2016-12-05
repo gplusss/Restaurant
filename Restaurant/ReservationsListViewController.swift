@@ -15,6 +15,7 @@ class ReservationsListViewController: UITableViewController {
     var table: Table!
     var reservations: [Reservation]!
     let customDateString = "dd.MM.YYYY, HH:MM"
+    var stepper = DetailViewController()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -54,8 +55,9 @@ class ReservationsListViewController: UITableViewController {
         let reservation = reservations[(indexPath as NSIndexPath).row]
         
         cell.nameLable.text = "Reserved by: \(reservation.name)"
-        cell.personsLable.text = "The number of guests: \(reservation.person.description)"
-        cell.startTimeLabel.text = "From: \(reservation.startTime.string(custom: customDateString))"
+        cell.personsLable.text = "The number of guests: \(reservation.person)"
+        //cell.personsLable.text = "The number of guests: \(stepper.personNumberLabel)"
+        cell.startTimeLabel.text = "From: \(reservation.startTime)"
         cell.endTimeLabel.text = "To: \(reservation.endTime.string(custom: customDateString))"
         cell.phoneNumberLabel.text = "PHONE: +38\(reservation.phone)"
         cell.phoneNumberLabel.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.title2)

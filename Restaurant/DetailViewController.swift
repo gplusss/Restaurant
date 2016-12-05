@@ -47,9 +47,14 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     }
     @IBOutlet weak var callIcon: UIImageView!
     @IBAction func makeCall(sender: UIButton) {
-        callNumber(phoneNumber: (phoneTextField?.text)!)
+        callNumber(phoneNumber: phoneTextField.text!)
     }
     
+    @IBAction func tapRegonizer(_ sender: UITapGestureRecognizer) {
+        callIcon.image = #imageLiteral(resourceName: "free-png-0")
+        print("Recognizer")
+    }
+    let notification = UILocalNotification()
     var currentTextField: UITextField!
         
     var startDate: Date?
@@ -61,7 +66,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
     lazy var accessoryToolbar: UIToolbar = {
         let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 50))
-        toolbar.barStyle = UIBarStyle.default
+        toolbar.barStyle = UIBarStyle.blackOpaque
         toolbar.items = [
             UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(DetailViewController.cancelDidPressed)),
             UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
@@ -71,8 +76,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     }()
     
     func callNumber(phoneNumber: String) {
-        //let phoneNumber = phoneTextField.text
-        //callTextLabel.text = phoneTextField.text
         if let url = URL(string: "tel://\(phoneNumber)") {
             if #available(iOS 10, *) {
                 UIApplication.shared.open(url, options: [:], completionHandler: { (success) in
@@ -91,15 +94,13 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         textFieldShouldReturn(currentTextField)
     }
     
-    
-    
+    //TODO: array from AnyObject
     lazy var textFields: [UITextField] = {
         return [self.nameTextField, self.startDateTextLabel, self.endDateTextLable, self.phoneTextField]
     }()
 
     @IBAction func startDateTextLabel(_ sender: UITextField) {
-        let startDatePickerView:UIDatePicker = UIDatePicker()
-        
+        let startDatePickerView: UIDatePicker = UIDatePicker()
         startDatePickerView.datePickerMode = UIDatePickerMode.dateAndTime
         startDatePickerView.minuteInterval = 1
         sender.inputView = startDatePickerView
@@ -111,7 +112,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     @IBAction func endDateTextLable(_ sender: UITextField) {
         let endDatePickerView: UIDatePicker = UIDatePicker()
         endDatePickerView.datePickerMode = UIDatePickerMode.dateAndTime
-        
+        endDatePickerView.minuteInterval = 15
         sender.inputView = endDatePickerView
         
         endDatePickerView.addTarget(self, action: #selector(DetailViewController.endDatePickerValueChanged), for: UIControlEvents.valueChanged)
@@ -122,6 +123,9 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         super.viewDidLoad()
         var frameRect = notesTextView.frame
             frameRect.size.height = 100
+       
+        // TODO: notification
+
         
         if reservation != nil {
             addButton.setTitle("SAVE RESERVATION", for: UIControlState())
@@ -134,22 +138,22 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             notesTextView.text = reservation!.notes
             notesTextView.frame = frameRect
             phoneTextField.text = reservation!.phone
+            callTextLabel.text = "Call to \(phoneTextField!.text!)"
             
         }
-        
+        personNumberLabel.text = reservation?.person.description
         nameTextField.becomeFirstResponder()
         stepper.wraps = false
         stepper.autorepeat = false
         stepper.minimumValue = 1
         stepper.maximumValue = Double(table.limitPersons)
-        callTextLabel.text = "Call to \(phoneTextField!.text)"
+        
         callIcon.image = #imageLiteral(resourceName: "callIcon")
         title = table.title()
         
         for textField in textFields {
             textField.inputAccessoryView = accessoryToolbar
         }
-        
         currentTextField = textFields.first!
     }
     
@@ -159,8 +163,19 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
-        
-    func startDatePickerValueChanged(_ sender:UIDatePicker) {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        var index = 0 as Int
+        let formattedString = NSMutableString()
+        if textField == phoneTextField {
+        let text: NSString = (phoneTextField.text ?? "") as NSString
+        callTextLabel.text = text.replacingCharacters(in: range, with: string)
+            formattedString.append(text as String)
+            index += 1
+        }
+        return true
+    }
+    
+    func startDatePickerValueChanged(_ sender: UIDatePicker) {
         startDate = sender.date
         
         let dateFormatter = DateFormatter()
@@ -170,7 +185,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         
     }
     
-    func endDatePickerValueChanged(_ sender:UIDatePicker) {
+    func endDatePickerValueChanged(_ sender: UIDatePicker) {
         endDate = sender.date
         
         let dateFormatter = DateFormatter()
@@ -235,12 +250,12 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
 //        }
 //    }
     
-    
+    //TODO: сделать правильный returner
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         let index = textFields.index(of: textField)
         
         if index < (textFields.count - 1) {  
-            let nextTextField = textFields[index!+1]
+            let nextTextField = textFields[index! + 1]
             nextTextField.becomeFirstResponder()
             currentTextField = nextTextField
             return false
@@ -251,6 +266,12 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     }
     
     @IBAction func addReservation(_ sender: UIButton) {
+        
+            notification.alertBody = "Стол для \(reservation!.name) заказан через полчаса!"
+            notification.alertAction = "open"
+            notification.fireDate = startDate
+            notification.soundName = UILocalNotificationDefaultSoundName            
+            UIApplication.shared.scheduleLocalNotification(notification)
         
         guard let name = nameTextField.text , name.characters.count > 0 else {
             let alertController = UIAlertController(title: "Validation", message: "PLease type your name", preferredStyle: .alert)
@@ -271,17 +292,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
 //                return
 //        }
         
-        if endDate < startDate {
-            let alertController = UIAlertController(title: "Validation", message: "EndDate < StartDate", preferredStyle: .alert)
-            
-            let cancelAction: UIAlertAction = UIAlertAction(title: "OK", style: .cancel) { action -> Void in }
-            self.endDateTextLable.becomeFirstResponder()
-            endDate = startDate
-            alertController.addAction(cancelAction)
-            present(alertController, animated: true, completion: nil)
-            return
-        }
-        
         if startDateTextLabel.text?.characters.count > 0 {
             startDateTextLabel.becomeFirstResponder()
         } else {
@@ -300,6 +310,16 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             present(alertController, animated: true, completion: nil)
         }
         
+        if endDate < startDate {
+            let alertController = UIAlertController(title: "Validation", message: "Гость не может уйти раньше, чем пришёл", preferredStyle: .alert)
+            let cancelAction: UIAlertAction = UIAlertAction(title: "OK", style: .cancel) { action -> Void in }
+            self.endDateTextLable.becomeFirstResponder()
+            endDate = startDate
+            alertController.addAction(cancelAction)
+            present(alertController, animated: true, completion: nil)
+            return
+        }
+        
         let realm = try! Realm()
 
         realm.beginWrite()
@@ -311,15 +331,15 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         }
 
         reservation!.name = name
-        //reservation!.person = person
         reservation!.phone = phoneTextField.text!
         reservation!.notes = notesTextView.text!
         reservation!.startTime = startDate!
         reservation!.endTime = endDate!
+        reservation!.person = Int(personNumberLabel.text!)!
         
         try! realm.commitWrite()
         
-        //navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
         
     }
 }
