@@ -14,7 +14,7 @@ import SwiftDate
 class ReservationsListViewController: UITableViewController {
     var table: Table!
     var reservations: [Reservation]!
-    let customDateString = "dd.MM.YYYY, HH:MM"
+    let customDateString = "YYYY.MM.dd, HH:mm"
     var stepper = DetailViewController()
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,9 +35,9 @@ class ReservationsListViewController: UITableViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "addReservation" {
-            
             let controller = segue.destination as! DetailViewController
             controller.table = table
+//            controller.reservation = Reservation()
         } else if segue.identifier == "editReservation" {
             let controller = segue.destination as! DetailViewController
             controller.table = table
@@ -56,8 +56,7 @@ class ReservationsListViewController: UITableViewController {
         
         cell.nameLable.text = "Reserved by: \(reservation.name)"
         cell.personsLable.text = "The number of guests: \(reservation.person)"
-        //cell.personsLable.text = "The number of guests: \(stepper.personNumberLabel)"
-        cell.startTimeLabel.text = "From: \(reservation.startTime)"
+        cell.startTimeLabel.text = "From: \(reservation.startTime.string(custom: customDateString))"
         cell.endTimeLabel.text = "To: \(reservation.endTime.string(custom: customDateString))"
         cell.phoneNumberLabel.text = "PHONE: +38\(reservation.phone)"
         cell.phoneNumberLabel.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.title2)

@@ -45,24 +45,20 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     @IBAction func stepperAction(_ sender: UIStepper) {
         personNumberLabel.text = "\(Int(stepper.value))"
     }
-    @IBOutlet weak var callIcon: UIImageView!
+
     @IBAction func makeCall(sender: UIButton) {
-        callNumber(phoneNumber: phoneTextField.text!)
+        callNumber(phoneNumber: (callTextLabel?.text!)!)
     }
     
-    @IBAction func tapRegonizer(_ sender: UITapGestureRecognizer) {
-        callIcon.image = #imageLiteral(resourceName: "free-png-0")
-        print("Recognizer")
-    }
-    let notification = UILocalNotification()
-    var currentTextField: UITextField!
+   
+    var currentTextField: UIView!
         
     var startDate: Date?
     var endDate: Date?
     
     var table: Table!
     var reservation: Reservation?
-    let customDateString = "YYYY.MM.dd, HH:MM"
+    let customDateString = "YYYY.MM.dd, HH:mm"
     
     lazy var accessoryToolbar: UIToolbar = {
         let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 50))
@@ -89,14 +85,17 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     func cancelDidPressed() {
         view.endEditing(true)
     }
-    
+    //TODO: сделать правильно
     func doneDidPressed() {
-        textFieldShouldReturn(currentTextField)
+        if let tf = currentTextField as? UITextField {
+            _ = textFieldShouldReturn(tf)
+        } else {
+            
+        }
     }
     
-    //TODO: array from AnyObject
-    lazy var textFields: [UITextField] = {
-        return [self.nameTextField, self.startDateTextLabel, self.endDateTextLable, self.phoneTextField]
+    lazy var textFields: [UIView] = {
+        return [self.nameTextField, self.startDateTextLabel, self.endDateTextLable, self.notesTextView, self.phoneTextField]
     }()
 
     @IBAction func startDateTextLabel(_ sender: UITextField) {
@@ -124,9 +123,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         var frameRect = notesTextView.frame
             frameRect.size.height = 100
        
-        // TODO: notification
-
-        
         if reservation != nil {
             addButton.setTitle("SAVE RESERVATION", for: UIControlState())
             
@@ -138,21 +134,22 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             notesTextView.text = reservation!.notes
             notesTextView.frame = frameRect
             phoneTextField.text = reservation!.phone
-            callTextLabel.text = "Call to \(phoneTextField!.text!)"
-            
+            callTextLabel.text = "\(phoneTextField!.text!)"
         }
-        personNumberLabel.text = reservation?.person.description
+        
+        personNumberLabel.text = "1" //reservation?.person.description
         nameTextField.becomeFirstResponder()
         stepper.wraps = false
         stepper.autorepeat = false
         stepper.minimumValue = 1
         stepper.maximumValue = Double(table.limitPersons)
         
-        callIcon.image = #imageLiteral(resourceName: "callIcon")
         title = table.title()
         
         for textField in textFields {
-            textField.inputAccessoryView = accessoryToolbar
+            if let tf = textField as? UITextField {
+                tf.inputAccessoryView = accessoryToolbar
+            }
         }
         currentTextField = textFields.first!
     }
@@ -266,12 +263,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     }
     
     @IBAction func addReservation(_ sender: UIButton) {
-        
-            notification.alertBody = "Стол для \(reservation!.name) заказан через полчаса!"
-            notification.alertAction = "open"
-            notification.fireDate = startDate
-            notification.soundName = UILocalNotificationDefaultSoundName            
-            UIApplication.shared.scheduleLocalNotification(notification)
+
         
         guard let name = nameTextField.text , name.characters.count > 0 else {
             let alertController = UIAlertController(title: "Validation", message: "PLease type your name", preferredStyle: .alert)
@@ -338,6 +330,15 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         reservation!.person = Int(personNumberLabel.text!)!
         
         try! realm.commitWrite()
+        
+        // TODO: notification должен срабатывать за определённое время
+        let notification = UILocalNotification()
+        notification.alertBody = "Стол для \(reservation!.name) заказан через полчаса!"
+        notification.alertAction = "open"
+        notification.fireDate = startDate
+        notification.soundName = UILocalNotificationDefaultSoundName
+        UIApplication.shared.scheduleLocalNotification(notification)
+        
         
         _ = self.navigationController?.popViewController(animated: true)
         
