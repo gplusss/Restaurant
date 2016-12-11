@@ -11,48 +11,47 @@ import RealmSwift
 import SwiftDate
 
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
+    switch (lhs, rhs) {
+    case let (l?, r?):
+        return l < r
+    case (nil, _?):
+        return true
+    default:
+        return false
+    }
 }
 
 fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
+    switch (lhs, rhs) {
+    case let (l?, r?):
+        return l > r
+    default:
+        return rhs < lhs
+    }
 }
 
 
-class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate {
+class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPopoverPresentationControllerDelegate {
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var phoneTextField: UITextField!
     @IBOutlet weak var notesTextView: UITextView!
     @IBOutlet weak var startDateTextLabel: UITextField!
-    @IBOutlet weak var endDateTextLable: UITextField!    
-    @IBOutlet weak var addButton: UIButton!    
+    @IBOutlet weak var endDateTextLable: UITextField!
+    @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var imageViewLabel: UIImageView!
     @IBOutlet weak var personNumberLabel: UILabel!
-    @IBOutlet weak var callTextLabel: UILabel!
     @IBOutlet weak var stepper: UIStepper!
     @IBAction func stepperAction(_ sender: UIStepper) {
         personNumberLabel.text = "\(Int(stepper.value))"
     }
-
+    
     @IBAction func makeCall(sender: UIButton) {
-        callNumber(phoneNumber: (callTextLabel?.text!)!)
+        callNumber(phoneNumber: (phoneTextField?.text!)!)
     }
     
-   
+
     var currentTextField: UIView!
-        
+    
     var startDate: Date?
     var endDate: Date?
     
@@ -65,7 +64,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         toolbar.barStyle = UIBarStyle.blackOpaque
         toolbar.items = [
             UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(DetailViewController.cancelDidPressed)),
-            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
+            //UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
             UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(DetailViewController.doneDidPressed))]
         toolbar.sizeToFit()
         return toolbar
@@ -90,14 +89,16 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         if let tf = currentTextField as? UITextField {
             _ = textFieldShouldReturn(tf)
         } else {
-            
+            if let nf = currentTextField as? UITextView {
+            _ = textFieldShouldReturn(nf)
+            }
         }
     }
     
     lazy var textFields: [UIView] = {
-        return [self.nameTextField, self.startDateTextLabel, self.endDateTextLable, self.notesTextView, self.phoneTextField]
+        return [self.nameTextField, self.phoneTextField, self.startDateTextLabel, self.endDateTextLable, self.notesTextView]
     }()
-
+    
     @IBAction func startDateTextLabel(_ sender: UITextField) {
         let startDatePickerView: UIDatePicker = UIDatePicker()
         startDatePickerView.datePickerMode = UIDatePickerMode.dateAndTime
@@ -105,9 +106,9 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         sender.inputView = startDatePickerView
         
         startDatePickerView.addTarget(self, action: #selector(DetailViewController.startDatePickerValueChanged), for: UIControlEvents.valueChanged)
-
+        
     }
-
+    
     @IBAction func endDateTextLable(_ sender: UITextField) {
         let endDatePickerView: UIDatePicker = UIDatePicker()
         endDatePickerView.datePickerMode = UIDatePickerMode.dateAndTime
@@ -115,30 +116,32 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         sender.inputView = endDatePickerView
         
         endDatePickerView.addTarget(self, action: #selector(DetailViewController.endDatePickerValueChanged), for: UIControlEvents.valueChanged)
-
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         var frameRect = notesTextView.frame
-            frameRect.size.height = 100
-       
+        frameRect.size.height = 100
+        
         if reservation != nil {
             addButton.setTitle("SAVE RESERVATION", for: UIControlState())
             
             startDate = reservation!.startTime as Date
             endDate = reservation!.endTime as Date
             nameTextField.text = reservation!.name
+            
             startDateTextLabel.text = String(describing: startDate!.string(custom: customDateString))
             endDateTextLable.text = String(describing: endDate!.string(custom: customDateString))
             notesTextView.text = reservation!.notes
             notesTextView.frame = frameRect
+            
             phoneTextField.text = reservation!.phone
-            callTextLabel.text = "\(phoneTextField!.text!)"
         }
         
         personNumberLabel.text = "1" //reservation?.person.description
         nameTextField.becomeFirstResponder()
+
         stepper.wraps = false
         stepper.autorepeat = false
         stepper.minimumValue = 1
@@ -151,26 +154,47 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
                 tf.inputAccessoryView = accessoryToolbar
             }
         }
+        
+        for notesField in textFields {
+            if let nf = notesField as? UITextView {
+                nf.inputAccessoryView = accessoryToolbar
+            }
+        }
         currentTextField = textFields.first!
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        let myColor : UIColor = UIColor.red
+        notesTextView.layer.cornerRadius = 25
+        nameTextField.layer.borderColor = myColor.cgColor
         self.navigationController?.hidesBarsOnSwipe = false
         self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        var index = 0 as Int
-        let formattedString = NSMutableString()
-        if textField == phoneTextField {
-        let text: NSString = (phoneTextField.text ?? "") as NSString
-        callTextLabel.text = text.replacingCharacters(in: range, with: string)
-            formattedString.append(text as String)
-            index += 1
-        }
-        return true
+    @IBAction func showPop(_ sender: UIButton) {
+        
+
+        let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "popOver") as! PopOverViewController
+        self.addChildViewController(popOverVC)
+        popOverVC.view.frame = self.view.frame
+        self.view.addSubview(popOverVC.view)
+        popOverVC.didMove(toParentViewController: self)
+        //popOverVC.orderTextView.text = String((reservation?.notes)!)
     }
+
+
+//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//        var index = 0 as Int
+//        let formattedString = NSMutableString()
+//        if textField == phoneTextField {
+//            let text: NSString = (phoneTextField.text ?? "") as NSString
+//            callTextLabel.text = text.replacingCharacters(in: range, with: string)
+//            formattedString.append(text as String)
+//            index += 1
+//        }
+//        return true
+//    }
     
     func startDatePickerValueChanged(_ sender: UIDatePicker) {
         startDate = sender.date
@@ -192,66 +216,66 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         
     }
     
-//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
-//    {
-//        if (textField == phoneTextField)
-//        {
-//            let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
-//            let components = newString.components(separatedBy: CharacterSet.decimalDigits.inverted)
-//            
-//            let decimalString = components.joined(separator: "") as NSString
-//            let length = decimalString.length
-//            let hasLeadingOne = length > 0 && decimalString.character(at: 0) == (1 as unichar)
-//            
-//            if length == 0 || (length > 10 && !hasLeadingOne) || length > 11
-//            {
-//                let newLength = (textField.text! as NSString).length + (string as NSString).length - range.length as Int
-//                
-//                return (newLength > 10) ? false : true
-//            }
-//            var index = 0 as Int
-//            let formattedString = NSMutableString()
-//            
-//            if hasLeadingOne
-//            {
-//                formattedString.append("1")
-//                index += 1
-//            }
-//            if (length - index) > 3
-//            {
-//                let areaCode = decimalString.substring(with: NSMakeRange(index, 3))
-//                formattedString.appendFormat("%@", areaCode)
-//                index += 3
-//            }
-//            if length - index > 3
-//            {
-//                let prefix = decimalString.substring(with: NSMakeRange(index, 3))
-//                formattedString.appendFormat("%@", prefix)
-//                index += 3
-//            }
-//            if length - index > 3
-//            {
-//                let prefix = decimalString.substring(with: NSMakeRange(index, 2))
-//                formattedString.appendFormat("%@", prefix)
-//                index += 2
-//            }
-//            
-//            let remainder = decimalString.substring(from: index)
-//            formattedString.append(remainder)
-//            textField.text = formattedString as String
-//            return false
-//        }
-//        else
-//        {
-//            return true
-//        }
-//    }
+    //    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
+    //    {
+    //        if (textField == phoneTextField)
+    //        {
+    //            let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+    //            let components = newString.components(separatedBy: CharacterSet.decimalDigits.inverted)
+    //
+    //            let decimalString = components.joined(separator: "") as NSString
+    //            let length = decimalString.length
+    //            let hasLeadingOne = length > 0 && decimalString.character(at: 0) == (1 as unichar)
+    //
+    //            if length == 0 || (length > 10 && !hasLeadingOne) || length > 11
+    //            {
+    //                let newLength = (textField.text! as NSString).length + (string as NSString).length - range.length as Int
+    //
+    //                return (newLength > 10) ? false : true
+    //            }
+    //            var index = 0 as Int
+    //            let formattedString = NSMutableString()
+    //
+    //            if hasLeadingOne
+    //            {
+    //                formattedString.append("1")
+    //                index += 1
+    //            }
+    //            if (length - index) > 3
+    //            {
+    //                let areaCode = decimalString.substring(with: NSMakeRange(index, 3))
+    //                formattedString.appendFormat("%@", areaCode)
+    //                index += 3
+    //            }
+    //            if length - index > 3
+    //            {
+    //                let prefix = decimalString.substring(with: NSMakeRange(index, 3))
+    //                formattedString.appendFormat("%@", prefix)
+    //                index += 3
+    //            }
+    //            if length - index > 3
+    //            {
+    //                let prefix = decimalString.substring(with: NSMakeRange(index, 2))
+    //                formattedString.appendFormat("%@", prefix)
+    //                index += 2
+    //            }
+    //
+    //            let remainder = decimalString.substring(from: index)
+    //            formattedString.append(remainder)
+    //            textField.text = formattedString as String
+    //            return false
+    //        }
+    //        else
+    //        {
+    //            return true
+    //        }
+    //    }
     
     //TODO: сделать правильный returner
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    private func textFieldShouldReturn(_ textField: UIView) -> Bool {
         let index = textFields.index(of: textField)
         
-        if index < (textFields.count - 1) {  
+        if index < (textFields.count - 1) {
             let nextTextField = textFields[index! + 1]
             nextTextField.becomeFirstResponder()
             currentTextField = nextTextField
@@ -263,7 +287,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     }
     
     @IBAction func addReservation(_ sender: UIButton) {
-
+        
         
         guard let name = nameTextField.text , name.characters.count > 0 else {
             let alertController = UIAlertController(title: "Validation", message: "PLease type your name", preferredStyle: .alert)
@@ -274,15 +298,15 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             present(alertController, animated: true, completion: nil)
             return
         }
-//        guard let person = Int(personsTextField.text!) , person <= table.limitPersons else {
-//            let alertController = UIAlertController(title: "Validation", message: "The number of guest may be less than \(table.limitPersons) ", preferredStyle: .alert)
-//        
-//            let cancelAction: UIAlertAction = UIAlertAction(title: "OK", style: .cancel) { action -> Void in }
-//                self.personsTextField.becomeFirstResponder()
-//                alertController.addAction(cancelAction)
-//                present(alertController, animated: true, completion: nil)
-//                return
-//        }
+        //        guard let person = Int(personsTextField.text!) , person <= table.limitPersons else {
+        //            let alertController = UIAlertController(title: "Validation", message: "The number of guest may be less than \(table.limitPersons) ", preferredStyle: .alert)
+        //
+        //            let cancelAction: UIAlertAction = UIAlertAction(title: "OK", style: .cancel) { action -> Void in }
+        //                self.personsTextField.becomeFirstResponder()
+        //                alertController.addAction(cancelAction)
+        //                present(alertController, animated: true, completion: nil)
+        //                return
+        //        }
         
         if startDateTextLabel.text?.characters.count > 0 {
             startDateTextLabel.becomeFirstResponder()
@@ -313,15 +337,15 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         }
         
         let realm = try! Realm()
-
+        
         realm.beginWrite()
-
+        
         if reservation == nil {
             reservation = Reservation()
             realm.add(reservation!)
             table.reserve(reservation!)
         }
-
+        
         reservation!.name = name
         reservation!.phone = phoneTextField.text!
         reservation!.notes = notesTextView.text!
@@ -344,7 +368,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         
     }
 }
-    
-    
-    
+
+
+
 

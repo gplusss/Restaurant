@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4026F1411DFC85AF00020143 /* PopOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4026F1401DFC85AF00020143 /* PopOverViewController.swift */; };
 		4062265C1DBF0AB900A330A3 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4062265A1DBF0AB900A330A3 /* Realm.framework */; };
 		4062265D1DBF0AB900A330A3 /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4062265A1DBF0AB900A330A3 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4062265E1DBF0AB900A330A3 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4062265B1DBF0AB900A330A3 /* RealmSwift.framework */; };
@@ -42,6 +43,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4026F1401DFC85AF00020143 /* PopOverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopOverViewController.swift; sourceTree = "<group>"; };
 		4062265A1DBF0AB900A330A3 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
 		4062265B1DBF0AB900A330A3 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = "<group>"; };
 		4073A02D1CC147CD002CEFF5 /* Realm+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Realm+Extensions.swift"; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 				40F547951CB3D37000367000 /* ReservationTableViewCell.swift */,
 				40EE62591CA905EE00650F42 /* DetailViewController.swift */,
 				40AF42691CB10E420008B3D6 /* ReservationsListViewController.swift */,
+				4026F1401DFC85AF00020143 /* PopOverViewController.swift */,
 				408A32F51CD74F9800892733 /* NSDate+Extensions.swift */,
 				407559441C9ADEA10067B4C2 /* Main.storyboard */,
 				407559471C9ADEA10067B4C2 /* Assets.xcassets */,
@@ -266,6 +269,7 @@
 			files = (
 				40F547961CB3D37000367000 /* ReservationTableViewCell.swift in Sources */,
 				40A6C03C1CA7A7A000AB0452 /* Table.swift in Sources */,
+				4026F1411DFC85AF00020143 /* PopOverViewController.swift in Sources */,
 				40AF426A1CB10E420008B3D6 /* ReservationsListViewController.swift in Sources */,
 				408A32F61CD74F9800892733 /* NSDate+Extensions.swift in Sources */,
 				407559531C9AE0960067B4C2 /* TableViewCell.swift in Sources */,
