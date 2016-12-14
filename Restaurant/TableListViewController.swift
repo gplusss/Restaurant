@@ -19,7 +19,7 @@ class TableListViewController: UITableViewController, UITextFieldDelegate {
     var image = "logo.png.pagespeed.ce.k0Fb5IZC1v.png"
     var reservation = Reservation()
     let segmentController = UISegmentedControl()
-    let red = UIColor.red.cgColor
+    let brown = UIColor.brown.cgColor
 
     func segmentController(_ sender: UISegmentedControl) {
         
@@ -56,8 +56,8 @@ class TableListViewController: UITableViewController, UITextFieldDelegate {
         
 
         segmentController.frame = CGRect(x: 200, y: 30, width: 200, height: 30)
-        segmentController.layer.borderColor = red
-        segmentController.layer.borderWidth  = 1
+        segmentController.layer.borderColor = brown
+        segmentController.layer.borderWidth  = 2
         segmentController.layer.cornerRadius = 15
         segmentController.layer.masksToBounds = true
         segmentController.insertSegment(withTitle: "RESERVED", at: 0, animated: true)

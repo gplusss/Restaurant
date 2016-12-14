@@ -16,12 +16,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
+                
         application.registerUserNotificationSettings(UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil))
         
-        UINavigationBar.appearance().backgroundColor = UIColor(red: 10/255, green: 10/255, blue: 10/255, alpha: 0.3)
+        UINavigationBar.appearance().backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 204/255, alpha: 0.3)
         UINavigationBar.appearance().tintColor = .brown
-        UINavigationBar.appearance().barTintColor = UIColor(red: 46.0/255.0, green: 14.0/255.0, blue: 74.0/255.0, alpha: 1.0)
+        UINavigationBar.appearance().barTintColor = UIColor(red: 255/255.0, green: 255/255.0, blue: 204/255.0, alpha: 1.0)
         UINavigationBar.appearance().titleTextAttributes = [
             NSFontAttributeName : UIFont(name: "Optima-BoldItalic", size: 21)!,
             NSForegroundColorAttributeName : UIColor.brown

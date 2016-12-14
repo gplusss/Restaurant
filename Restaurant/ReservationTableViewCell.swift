@@ -16,5 +16,11 @@ class ReservationTableViewCell: UITableViewCell {
     @IBOutlet var endTimeLabel: UILabel!
     @IBOutlet var phoneNumberLabel: UILabel!
     @IBOutlet var personsLable: UILabel!
-        
+    
+    @IBOutlet weak var name: UILabel!
+    @IBOutlet weak var phone: UILabel!
+    @IBOutlet weak var start: UILabel!
+    @IBOutlet weak var end: UILabel!
+    @IBOutlet weak var person: UILabel!
+    
 }

@@ -7,5 +7,6 @@ use_frameworks!
 target 'Restaurant' do
         pod 'RealmSwift'
         pod 'SwiftDate'
+        pod "DKChainableAnimationKit", "~> 2.0.0"
 end
 

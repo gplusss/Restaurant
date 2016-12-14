@@ -8,15 +8,28 @@
 
 import UIKit
 import RealmSwift
+import DKChainableAnimationKit
 
 class PopOverViewController: UIViewController {
     
+    @IBOutlet weak var saveOrderButton: UIButton!
+    //@IBOutlet weak var imageView: UIImageView!
+    
     var reservation: Reservation?
-    var note: DetailViewController!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        //imageView.layer.cornerRadius = 15
+        saveOrderButton.animation.moveX(220.0).animate(1.5)
         
+        //imageView.animation.makeScale(3.0)
+        //imageView.animation.moveXY(100, 40).delay(0.5).animate(1.0)
+        
+        if reservation != nil {
+            orderTextView.text = reservation?.notes
+        }
+        
+        saveOrderButton.layer.cornerRadius = 10
         self.showAnimate()
     }
     
@@ -26,22 +39,16 @@ class PopOverViewController: UIViewController {
     }
     @IBOutlet weak var orderTextView: UITextView!
     @IBAction func saveOrder(sender: UIButton) {
-        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DetailVC") as! DetailViewController
-        if orderTextView.text != nil {
-            reservation = Reservation()
-        vc.reservation!.notes = orderTextView.text
-            
-        }
-//        let realm = try! Realm()
-//        realm.beginWrite()
-//        if orderTextView == nil {
-//            note.reservation?.notes = orderTextView.text
-//
-//            realm.add(reservation!)
-//        }
-//        
-//        
-//        try! realm.commitWrite()
+//      let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DetailVC") as! DetailViewController
+//        if orderTextView.text != nil {
+//            reservation = Reservation()
+//        vc.reservation?.notes = orderTextView.text
+        
+            if orderTextView.text != nil {
+                let parentController = self.parent as! DetailViewController
+                parentController.notesTextView.text = orderTextView.text
+            }
+
         self.removeAnimate()
     }
     

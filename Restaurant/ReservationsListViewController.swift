@@ -17,6 +17,9 @@ class ReservationsListViewController: UITableViewController {
     let customDateString = "YYYY.MM.dd, HH:mm"
     var stepper = DetailViewController()
     
+
+   
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tableView.allowsMultipleSelectionDuringEditing = true
@@ -53,14 +56,16 @@ class ReservationsListViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ReservationTableViewCell", for: indexPath) as! ReservationTableViewCell
         
         let reservation = reservations[(indexPath as NSIndexPath).row]
-        
-        cell.nameLable.text = "Reserved by: \(reservation.name)"
-        cell.personsLable.text = "The number of guests: \(reservation.person)"
-        cell.startTimeLabel.text = "From: \(reservation.startTime.string(custom: customDateString))"
-        cell.endTimeLabel.text = "To: \(reservation.endTime.string(custom: customDateString))"
-        cell.phoneNumberLabel.text = "PHONE: +38\(reservation.phone)"
-        cell.phoneNumberLabel.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.title2)
-        cell.nameLable.shadowColor = UIColor.blue
+        cell.name.text = "RESERVED BY: "
+        cell.person.text = "NUMBER OF GUESTS: "
+        cell.start.text = "FROM: "
+        cell.end.text = "TO: "
+        cell.phone.text = "PHONE: "
+        cell.nameLable.text = "\(reservation.name)"
+        cell.personsLable.text = "\(reservation.person)"
+        cell.startTimeLabel.text = "\(reservation.startTime.string(custom: customDateString))"
+        cell.endTimeLabel.text = "\(reservation.endTime.string(custom: customDateString))"
+        cell.phoneNumberLabel.text = "\(reservation.phone)"
         
         return cell
     }

@@ -32,15 +32,16 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 
 class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPopoverPresentationControllerDelegate {
+    @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var phoneTextField: UITextField!
     @IBOutlet weak var notesTextView: UITextView!
     @IBOutlet weak var startDateTextLabel: UITextField!
     @IBOutlet weak var endDateTextLable: UITextField!
     @IBOutlet weak var addButton: UIButton!
-    @IBOutlet weak var imageViewLabel: UIImageView!
     @IBOutlet weak var personNumberLabel: UILabel!
     @IBOutlet weak var stepper: UIStepper!
+    @IBOutlet weak var showPopButton: UIButton!
     @IBAction func stepperAction(_ sender: UIStepper) {
         personNumberLabel.text = "\(Int(stepper.value))"
     }
@@ -49,22 +50,19 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         callNumber(phoneNumber: (phoneTextField?.text!)!)
     }
     
-
-    var currentTextField: UIView!
-    
+    var currentTextField: UITextField!
     var startDate: Date?
     var endDate: Date?
-    
     var table: Table!
     var reservation: Reservation?
     let customDateString = "YYYY.MM.dd, HH:mm"
     
     lazy var accessoryToolbar: UIToolbar = {
         let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 50))
-        toolbar.barStyle = UIBarStyle.blackOpaque
+        toolbar.barStyle = UIBarStyle.default
         toolbar.items = [
             UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(DetailViewController.cancelDidPressed)),
-            //UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
             UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(DetailViewController.doneDidPressed))]
         toolbar.sizeToFit()
         return toolbar
@@ -86,17 +84,13 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     }
     //TODO: сделать правильно
     func doneDidPressed() {
-        if let tf = currentTextField as? UITextField {
+        if let tf = currentTextField {
             _ = textFieldShouldReturn(tf)
-        } else {
-            if let nf = currentTextField as? UITextView {
-            _ = textFieldShouldReturn(nf)
-            }
         }
     }
-    
-    lazy var textFields: [UIView] = {
-        return [self.nameTextField, self.phoneTextField, self.startDateTextLabel, self.endDateTextLable, self.notesTextView]
+   
+    lazy var textFields: [UITextField] = {
+        return [self.nameTextField, self.phoneTextField, self.startDateTextLabel, self.endDateTextLable]
     }()
     
     @IBAction func startDateTextLabel(_ sender: UITextField) {
@@ -139,27 +133,24 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             phoneTextField.text = reservation!.phone
         }
         
-        personNumberLabel.text = "1" //reservation?.person.description
+        personNumberLabel.text = reservation?.person.description
         nameTextField.becomeFirstResponder()
-
+        
         stepper.wraps = false
         stepper.autorepeat = false
         stepper.minimumValue = 1
         stepper.maximumValue = Double(table.limitPersons)
         
+        showPopButton.layer.cornerRadius = 15
+        addButton.layer.cornerRadius = 15
+        
+        
         title = table.title()
         
         for textField in textFields {
-            if let tf = textField as? UITextField {
-                tf.inputAccessoryView = accessoryToolbar
-            }
+                textField.inputAccessoryView = accessoryToolbar
         }
         
-        for notesField in textFields {
-            if let nf = notesField as? UITextView {
-                nf.inputAccessoryView = accessoryToolbar
-            }
-        }
         currentTextField = textFields.first!
     }
     
@@ -174,27 +165,13 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
     @IBAction func showPop(_ sender: UIButton) {
         
-
         let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "popOver") as! PopOverViewController
+        popOverVC.reservation = self.reservation
         self.addChildViewController(popOverVC)
         popOverVC.view.frame = self.view.frame
         self.view.addSubview(popOverVC.view)
         popOverVC.didMove(toParentViewController: self)
-        //popOverVC.orderTextView.text = String((reservation?.notes)!)
     }
-
-
-//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//        var index = 0 as Int
-//        let formattedString = NSMutableString()
-//        if textField == phoneTextField {
-//            let text: NSString = (phoneTextField.text ?? "") as NSString
-//            callTextLabel.text = text.replacingCharacters(in: range, with: string)
-//            formattedString.append(text as String)
-//            index += 1
-//        }
-//        return true
-//    }
     
     func startDatePickerValueChanged(_ sender: UIDatePicker) {
         startDate = sender.date
@@ -215,64 +192,8 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         endDateTextLable.text = dateFormatter.string(from: sender.date)
         
     }
-    
-    //    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
-    //    {
-    //        if (textField == phoneTextField)
-    //        {
-    //            let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
-    //            let components = newString.components(separatedBy: CharacterSet.decimalDigits.inverted)
-    //
-    //            let decimalString = components.joined(separator: "") as NSString
-    //            let length = decimalString.length
-    //            let hasLeadingOne = length > 0 && decimalString.character(at: 0) == (1 as unichar)
-    //
-    //            if length == 0 || (length > 10 && !hasLeadingOne) || length > 11
-    //            {
-    //                let newLength = (textField.text! as NSString).length + (string as NSString).length - range.length as Int
-    //
-    //                return (newLength > 10) ? false : true
-    //            }
-    //            var index = 0 as Int
-    //            let formattedString = NSMutableString()
-    //
-    //            if hasLeadingOne
-    //            {
-    //                formattedString.append("1")
-    //                index += 1
-    //            }
-    //            if (length - index) > 3
-    //            {
-    //                let areaCode = decimalString.substring(with: NSMakeRange(index, 3))
-    //                formattedString.appendFormat("%@", areaCode)
-    //                index += 3
-    //            }
-    //            if length - index > 3
-    //            {
-    //                let prefix = decimalString.substring(with: NSMakeRange(index, 3))
-    //                formattedString.appendFormat("%@", prefix)
-    //                index += 3
-    //            }
-    //            if length - index > 3
-    //            {
-    //                let prefix = decimalString.substring(with: NSMakeRange(index, 2))
-    //                formattedString.appendFormat("%@", prefix)
-    //                index += 2
-    //            }
-    //
-    //            let remainder = decimalString.substring(from: index)
-    //            formattedString.append(remainder)
-    //            textField.text = formattedString as String
-    //            return false
-    //        }
-    //        else
-    //        {
-    //            return true
-    //        }
-    //    }
-    
-    //TODO: сделать правильный returner
-    private func textFieldShouldReturn(_ textField: UIView) -> Bool {
+
+    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         let index = textFields.index(of: textField)
         
         if index < (textFields.count - 1) {
@@ -281,13 +202,12 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             currentTextField = nextTextField
             return false
         } else {
-            notesTextView.resignFirstResponder()
+            endDateTextLable.resignFirstResponder()
         }
         return true
     }
     
     @IBAction func addReservation(_ sender: UIButton) {
-        
         
         guard let name = nameTextField.text , name.characters.count > 0 else {
             let alertController = UIAlertController(title: "Validation", message: "PLease type your name", preferredStyle: .alert)
@@ -298,15 +218,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             present(alertController, animated: true, completion: nil)
             return
         }
-        //        guard let person = Int(personsTextField.text!) , person <= table.limitPersons else {
-        //            let alertController = UIAlertController(title: "Validation", message: "The number of guest may be less than \(table.limitPersons) ", preferredStyle: .alert)
-        //
-        //            let cancelAction: UIAlertAction = UIAlertAction(title: "OK", style: .cancel) { action -> Void in }
-        //                self.personsTextField.becomeFirstResponder()
-        //                alertController.addAction(cancelAction)
-        //                present(alertController, animated: true, completion: nil)
-        //                return
-        //        }
         
         if startDateTextLabel.text?.characters.count > 0 {
             startDateTextLabel.becomeFirstResponder()
@@ -357,7 +268,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         
         // TODO: notification должен срабатывать за определённое время
         let notification = UILocalNotification()
-        notification.alertBody = "Стол для \(reservation!.name) заказан через полчаса!"
+        notification.alertBody = "Стол №\(table.name) для \(reservation!.name) заказан через полчаса!"
         notification.alertAction = "open"
         notification.fireDate = startDate
         notification.soundName = UILocalNotificationDefaultSoundName
@@ -368,7 +279,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         
     }
 }
-
 
 
 
