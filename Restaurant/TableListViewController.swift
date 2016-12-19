@@ -20,11 +20,11 @@ class TableListViewController: UITableViewController, UITextFieldDelegate {
     var reservation = Reservation()
     let segmentController = UISegmentedControl()
     let brown = UIColor.brown.cgColor
-
+    
     func segmentController(_ sender: UISegmentedControl) {
         
         let realm = try! Realm()
-
+        
         var results: Results<Table>?
         if let index = SegmentIndex(rawValue: segmentController.selectedSegmentIndex) {
             switch index {
@@ -34,7 +34,6 @@ class TableListViewController: UITableViewController, UITextFieldDelegate {
                 let tomorrow = Date() + 1.days
                 results = realm.objects(Table.self).filter(NSPredicate(format: "SUBQUERY(reservations, $reservation,$reservation.startTime > %@).@count > 0 OR reservations.@count == 0", tomorrow.beginningOfDay() as CVarArg))
             case .all:
-                
                 results = realm.objects(Table.self)
             }
         }
@@ -46,15 +45,12 @@ class TableListViewController: UITableViewController, UITextFieldDelegate {
                 tables.append(table)
             }
         }
-
+        
         tableView.reloadData()
     }
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
-        
-
         segmentController.frame = CGRect(x: 200, y: 30, width: 200, height: 30)
         segmentController.layer.borderColor = brown
         segmentController.layer.borderWidth  = 2
@@ -64,20 +60,20 @@ class TableListViewController: UITableViewController, UITextFieldDelegate {
         segmentController.insertSegment(withTitle: "FREE", at: 1, animated: true)
         segmentController.insertSegment(withTitle: "ALL", at: 2, animated: true)
         segmentController.tintColor = UIColor.brown
-
+        
         segmentController.addTarget(self, action: #selector(TableListViewController.segmentController(_:)), for: UIControlEvents.valueChanged)
         self.view.addSubview(segmentController)
         segmentController.selectedSegmentIndex = 2
         self.navigationItem.titleView = segmentController
         
-    
+        
         let realm = try! Realm()
         
         for table in realm.objects(Table.self) {
             tables.append(table)
         }
         navigationController?.hidesBarsOnSwipe = true
-
+        
         tableView.reloadData()
     }
     
@@ -87,7 +83,7 @@ class TableListViewController: UITableViewController, UITextFieldDelegate {
         
         tableView.reloadData()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -101,7 +97,7 @@ class TableListViewController: UITableViewController, UITextFieldDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! TableViewCell
         
         let table = tables[(indexPath as NSIndexPath).row]
-    
+        
         cell.tableNameLabel.text = table.title()
         cell.tableNameLabel.font = UIFont.boldSystemFont(ofSize: 25)
         cell.sitsLabel.text = "\(table.limitPersons) SITS"
@@ -113,10 +109,10 @@ class TableListViewController: UITableViewController, UITextFieldDelegate {
         
         return cell
     }
-
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let table = tables[(indexPath as NSIndexPath).row]
-
+        
         performSegue(withIdentifier: "showDetails", sender: table)
     }
     
@@ -130,26 +126,6 @@ class TableListViewController: UITableViewController, UITextFieldDelegate {
         }
     }
 }
-
-//extension UISegmentedControl {
-//    func removeBorders() {
-//        setBackgroundImage(imageWithColor(color: backgroundColor!), for: .normal, barMetrics: .default)
-//        setBackgroundImage(imageWithColor(color: tintColor!), for: .selected, barMetrics: .default)
-//        setDividerImage(imageWithColor(color: UIColor.clear), forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
-//    }
-//    
-//    // create a 1x1 image with this color
-//    private func imageWithColor(color: UIColor) -> UIImage {
-//        let rect = CGRect(x: 0.0, y: 0.0, width: 1.0, height: 1.0)
-//        UIGraphicsBeginImageContext(rect.size)
-//        let context = UIGraphicsGetCurrentContext()
-//        context!.setFillColor(color.cgColor);
-//        context!.fill(rect);
-//        let image = UIImage(named: "callIcon")//UIGraphicsGetImageFromCurrentImageContext()
-//        //UIGraphicsEndImageContext()
-//        return image!
-//    }
-//}
 
 
 

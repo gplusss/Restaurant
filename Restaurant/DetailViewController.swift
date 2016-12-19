@@ -55,7 +55,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     var endDate: Date?
     var table: Table!
     var reservation: Reservation?
-    let customDateString = "YYYY.MM.dd, HH:mm"
+    let customDateString = "HH:mm, dd.MM.YYYY"
     
     lazy var accessoryToolbar: UIToolbar = {
         let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 50))
@@ -88,7 +88,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             _ = textFieldShouldReturn(tf)
         }
     }
-   
+    
     lazy var textFields: [UITextField] = {
         return [self.nameTextField, self.phoneTextField, self.startDateTextLabel, self.endDateTextLable]
     }()
@@ -96,7 +96,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     @IBAction func startDateTextLabel(_ sender: UITextField) {
         let startDatePickerView: UIDatePicker = UIDatePicker()
         startDatePickerView.datePickerMode = UIDatePickerMode.dateAndTime
-        startDatePickerView.minuteInterval = 1
+        startDatePickerView.minuteInterval = 15
         sender.inputView = startDatePickerView
         
         startDatePickerView.addTarget(self, action: #selector(DetailViewController.startDatePickerValueChanged), for: UIControlEvents.valueChanged)
@@ -120,7 +120,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         
         if reservation != nil {
             addButton.setTitle("SAVE RESERVATION", for: UIControlState())
-            
+                        
             startDate = reservation!.startTime as Date
             endDate = reservation!.endTime as Date
             nameTextField.text = reservation!.name
@@ -133,9 +133,14 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             phoneTextField.text = reservation!.phone
         }
         
-        personNumberLabel.text = reservation?.person.description
-        nameTextField.becomeFirstResponder()
-        
+        if reservation == nil {
+            personNumberLabel.text = "1"
+            nameTextField.becomeFirstResponder()
+        } else {
+            personNumberLabel.text = reservation?.person.description
+            showPopButton.setTitle("EDIT ORDER", for: UIControlState())
+        }
+                
         stepper.wraps = false
         stepper.autorepeat = false
         stepper.minimumValue = 1
@@ -144,11 +149,10 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         showPopButton.layer.cornerRadius = 15
         addButton.layer.cornerRadius = 15
         
-        
         title = table.title()
         
         for textField in textFields {
-                textField.inputAccessoryView = accessoryToolbar
+            textField.inputAccessoryView = accessoryToolbar
         }
         
         currentTextField = textFields.first!
@@ -156,9 +160,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let myColor : UIColor = UIColor.red
-        notesTextView.layer.cornerRadius = 25
-        nameTextField.layer.borderColor = myColor.cgColor
         self.navigationController?.hidesBarsOnSwipe = false
         self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
@@ -192,7 +193,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         endDateTextLable.text = dateFormatter.string(from: sender.date)
         
     }
-
+    
     internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         let index = textFields.index(of: textField)
         
@@ -265,12 +266,13 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         reservation!.person = Int(personNumberLabel.text!)!
         
         try! realm.commitWrite()
+
         
         // TODO: notification должен срабатывать за определённое время
         let notification = UILocalNotification()
         notification.alertBody = "Стол №\(table.name) для \(reservation!.name) заказан через полчаса!"
         notification.alertAction = "open"
-        notification.fireDate = startDate
+        notification.fireDate = Date(timeInterval: -1800, since: startDate!)
         notification.soundName = UILocalNotificationDefaultSoundName
         UIApplication.shared.scheduleLocalNotification(notification)
         

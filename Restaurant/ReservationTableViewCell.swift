@@ -23,4 +23,6 @@ class ReservationTableViewCell: UITableViewCell {
     @IBOutlet weak var end: UILabel!
     @IBOutlet weak var person: UILabel!
     
+    @IBOutlet weak var todayImageView: UIImageView!
+    
 }

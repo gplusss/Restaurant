@@ -13,22 +13,18 @@ import DKChainableAnimationKit
 class PopOverViewController: UIViewController {
     
     @IBOutlet weak var saveOrderButton: UIButton!
-    //@IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var orderTextView: UITextView!
     
     var reservation: Reservation?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //imageView.layer.cornerRadius = 15
         saveOrderButton.animation.moveX(220.0).animate(1.5)
-        
-        //imageView.animation.makeScale(3.0)
-        //imageView.animation.moveXY(100, 40).delay(0.5).animate(1.0)
         
         if reservation != nil {
             orderTextView.text = reservation?.notes
         }
-        
+        orderTextView.becomeFirstResponder()
         saveOrderButton.layer.cornerRadius = 10
         self.showAnimate()
     }
@@ -37,18 +33,18 @@ class PopOverViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    @IBOutlet weak var orderTextView: UITextView!
+    
     @IBAction func saveOrder(sender: UIButton) {
-//      let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DetailVC") as! DetailViewController
-//        if orderTextView.text != nil {
-//            reservation = Reservation()
-//        vc.reservation?.notes = orderTextView.text
+        //      let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DetailVC") as! DetailViewController
+        //        if orderTextView.text != nil {
+        //            reservation = Reservation()
+        //        vc.reservation?.notes = orderTextView.text
         
-            if orderTextView.text != nil {
-                let parentController = self.parent as! DetailViewController
-                parentController.notesTextView.text = orderTextView.text
-            }
-
+        if orderTextView.text != nil {
+            let parentController = self.parent as! DetailViewController
+            parentController.notesTextView.text = orderTextView.text
+        }
+        
         self.removeAnimate()
     }
     
@@ -71,13 +67,6 @@ class PopOverViewController: UIViewController {
                 self.view.removeFromSuperview()
             }
         })
-        
     }
-
-    
 }
 
-protocol PopOverViewControllerDelegate {
-    func passData(noteField: String)
-    
-}

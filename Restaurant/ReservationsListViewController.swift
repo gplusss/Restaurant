@@ -14,20 +14,14 @@ import SwiftDate
 class ReservationsListViewController: UITableViewController {
     var table: Table!
     var reservations: [Reservation]!
-    let customDateString = "YYYY.MM.dd, HH:mm"
-    var stepper = DetailViewController()
-    
-
-   
+    let customDateString = "HH:mm, dd.MM.YYYY"
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tableView.allowsMultipleSelectionDuringEditing = true
-        reservations = table.reservations.sorted(byProperty: "startTime", ascending: true).toArray(Reservation.self)
-        
+        reservations = table.reservations.sorted(byProperty: "startTime", ascending: false).toArray(Reservation.self)
         tableView.reloadData()
     }
-    
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let reservation = reservations[(indexPath as NSIndexPath).row]
@@ -35,12 +29,10 @@ class ReservationsListViewController: UITableViewController {
         performSegue(withIdentifier: "editReservation", sender: reservation)
     }
     
-
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "addReservation" {
             let controller = segue.destination as! DetailViewController
             controller.table = table
-//            controller.reservation = Reservation()
         } else if segue.identifier == "editReservation" {
             let controller = segue.destination as! DetailViewController
             controller.table = table
@@ -56,8 +48,16 @@ class ReservationsListViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ReservationTableViewCell", for: indexPath) as! ReservationTableViewCell
         
         let reservation = reservations[(indexPath as NSIndexPath).row]
+
+            if reservation.startTime < Date().endOfDay() && reservation.endTime > Date().beginningOfDay() {
+                cell.todayImageView.image = #imageLiteral(resourceName: "today")
+                cell.todayImageView.layer.cornerRadius = 35
+            } else {
+                cell.todayImageView.image = nil
+            }
+        
         cell.name.text = "RESERVED BY: "
-        cell.person.text = "NUMBER OF GUESTS: "
+        cell.person.text = "GUESTS: "
         cell.start.text = "FROM: "
         cell.end.text = "TO: "
         cell.phone.text = "PHONE: "
@@ -75,7 +75,6 @@ class ReservationsListViewController: UITableViewController {
             let realm = try! Realm()
             realm.beginWrite()
             
-            
             let reservation = self.reservations[(indexPath as NSIndexPath).row]
             realm.delete(reservation)
             
@@ -89,6 +88,4 @@ class ReservationsListViewController: UITableViewController {
         return [deleteAction]
         
     }
-    
-
 }
